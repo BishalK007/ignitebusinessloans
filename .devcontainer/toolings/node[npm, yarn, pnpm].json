@@ -1,0 +1,6 @@
+{
+    "name": "Node.js, Npm, Yarn, Pnpm",
+    "features": {
+        "ghcr.io/devcontainers/features/node:1": {}
+    }
+}

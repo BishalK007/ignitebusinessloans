@@ -1,0 +1,11 @@
+{
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "wix.vscode-import-cost",
+                "Gruntfuggly.todo-tree",
+                "streetsidesoftware.code-spell-checker"
+            ]
+        }
+    }
+}

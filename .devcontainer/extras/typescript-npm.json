@@ -1,0 +1,4 @@
+{   
+    "name": "Typescript-tsc",
+    "postCreateCommand": "npm install -g typescript"
+}

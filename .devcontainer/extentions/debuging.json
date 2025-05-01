@@ -1,0 +1,11 @@
+{
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-vscode.js-debug",
+                "ms-vscode.vscode-node-debug2",
+                "msjsdiag.debugger-for-chrome"
+            ]
+        }
+    }
+}

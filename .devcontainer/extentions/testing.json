@@ -1,0 +1,11 @@
+{
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "firsttris.vscode-jest-runner",
+                "hbenl.vscode-mocha-test-adapter",
+                "postman.postman"
+            ]
+        }
+    }
+}

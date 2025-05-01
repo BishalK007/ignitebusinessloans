@@ -1,0 +1,11 @@
+{
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-vscode.vscode-node-azure-pack",
+                "formulahendry.auto-close-tag",
+                "formulahendry.auto-rename-tag"
+            ]
+        }
+    }
+}

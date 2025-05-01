@@ -1,0 +1,15 @@
+{
+    "name": "Dev Container With: ",
+    "image": "mcr.microsoft.com/devcontainers/base:0-ubuntu",
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "terminal.integrated.shell.linux": "/bin/bash"
+            }
+        }
+    },
+    "forwardPorts": [
+        3000,
+        3001
+    ]
+}
