@@ -1,3 +1,4 @@
+"use client"
 import * as React from "react"
 const BackIcon = ({ className = "", ...props }) => (
   <span className={`inline-block ${className}`}>
