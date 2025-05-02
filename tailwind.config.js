@@ -13,6 +13,9 @@ module.exports = {
         primary: "#0a3977",
         secondary: "#00b8a9",
       },
+      fontFamily: {
+        lora: ['Lora', 'serif'],
+      },
     },
   },
   plugins: [],

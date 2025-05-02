@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -23,5 +25,57 @@ body {
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+  
+}
+@layer utilities {
+  .bg-ignite-animated {
+    position: relative;
+    overflow: hidden;
+    background: #eaf6fb;
+    /* fallback */
+  }
+  .bg-ignite-animated::before,
+  .bg-ignite-animated::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0.7;
+    z-index: 0;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+  }
+  .bg-ignite-animated::before {
+    width: 80vw;
+    height: 80vw;
+    min-width: 600px;
+    min-height: 600px;
+    left: -20vw;
+    top: -30vw;
+    background: radial-gradient(circle at 50% 50%, #b3e0ff 0%, #eaf6fb 80%, transparent 100%);
+    animation: ignite-move-1 18s linear infinite;
+  }
+  .bg-ignite-animated::after {
+    width: 60vw;
+    height: 60vw;
+    min-width: 400px;
+    min-height: 400px;
+    right: -15vw;
+    bottom: -20vw;
+    background: radial-gradient(circle at 60% 40%, #a5bfff 0%, #eaf6fb 70%, transparent 100%);
+    opacity: 0.5;
+    animation: ignite-move-2 22s linear infinite;
+  }
+
+  @keyframes ignite-move-1 {
+    0% { left: -20vw; top: -30vw; }
+    50% { left: 10vw; top: -10vw; }
+    100% { left: -20vw; top: -30vw; }
+  }
+  @keyframes ignite-move-2 {
+    0% { right: -15vw; bottom: -20vw; }
+    50% { right: 5vw; bottom: 0vw; }
+    100% { right: -15vw; bottom: -20vw; }
   }
 }
