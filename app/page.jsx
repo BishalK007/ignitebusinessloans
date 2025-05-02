@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 // Dynamically import Lottie with SSR disabled
 const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 import planeLottie from "@/public/assets/loading_plane_lottie.json";
+import Logo from "@/components/icons/logo";
 
 const NAV_STEPS = [
   { label: "Basic Info", range: [0, 4] },
@@ -25,8 +26,8 @@ function getStep(current, showLoader) {
 
 function IgniteLogo() {
   return (
-    <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-tr from-blue-900 to-blue-400 text-white font-extrabold text-3xl select-none">
-      I
+    <span className="inline-flex items-center justify-center w-10 h-10 rounded-full text-white font-extrabold text-3xl select-none pl-2">
+      <Logo />
     </span>
   );
 }
@@ -67,7 +68,9 @@ function Loader({ onDone }) {
           <span
             key={idx}
             className={`text-base md:text-lg font-medium transition-opacity duration-500 ${
-              idx === step ? "opacity-100 text-blue-900" : "opacity-60 text-gray-900"
+              idx === step
+                ? "opacity-100 text-blue-900"
+                : "opacity-60 text-gray-900"
             }`}
           >
             {txt}
@@ -105,9 +108,9 @@ export default function Home() {
       <div className="flex-1 flex flex-col z-10">
         {/* Navbar */}
         <nav className="w-full bg-gray-50 border-b border-gray-200 py-3 px-2 flex flex-col sm:flex-row items-center sm:items-center justify-between gap-2 ">
-          <div className="flex items-center gap-2 md:gap-4 mb-2 sm:mb-0">
+          <div className="flex items-center gap-1 mb-2 sm:mb-0">
             <IgniteLogo />
-            <span className="ml-2 text-xl font-bold text-blue-900 hidden sm:inline">
+            <span className="text-xl font-bold text-blue-900 hidden sm:inline">
               IgniteBusinessLoans
             </span>
           </div>
@@ -129,7 +132,12 @@ export default function Home() {
         {/* Main Content */}
         <div className="flex-1 flex items-center justify-center px-2">
           {showLoader ? (
-            <Loader onDone={() => { setShowLoader(false); setShowThankYou(true); }} />
+            <Loader
+              onDone={() => {
+                setShowLoader(false);
+                setShowThankYou(true);
+              }}
+            />
           ) : showThankYou ? (
             <div className="bg-white rounded-xl shadow-lg p-10 w-full max-w-lg flex flex-col items-center justify-center text-center">
               <span className="text-5xl mb-4">🎉</span>
@@ -153,9 +161,7 @@ export default function Home() {
         <footer className="w-full bg-gray-50 border-t border-gray-200 mt-auto">
           <div className="max-w-6xl mx-auto px-4 py-8 flex flex-col items-center">
             <div className="flex flex-col items-center mb-4">
-              <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-tr from-blue-900 to-blue-400 text-white font-extrabold text-4xl select-none mb-2">
-                I
-              </span>
+              <IgniteLogo />
               <span className="text-2xl font-bold text-blue-900">
                 IgniteBusinessLoans
               </span>
