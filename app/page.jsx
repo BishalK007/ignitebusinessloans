@@ -11,7 +11,7 @@ const NAV_STEPS = [
   { label: "Basic Info", range: [0, 4] },
   { label: "Your Business", range: [5, 8] },
   { label: "Your Info", range: [9, 12] },
-  { label: "Offers and final details", range: [13, 13] }, // Only after submit/loading
+  { label: "Offers and Final Details", range: [13, 13] }, // Only after submit/loading
 ];
 
 function getStep(current, showLoader) {
