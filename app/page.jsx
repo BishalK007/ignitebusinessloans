@@ -67,7 +67,7 @@ function Loader({ onDone }) {
           <span
             key={idx}
             className={`text-base md:text-lg font-medium transition-opacity duration-500 ${
-              idx === step ? "opacity-100 text-blue-900" : "opacity-40"
+              idx === step ? "opacity-100 text-blue-900" : "opacity-80"
             }`}
           >
             {txt}
