@@ -26,7 +26,7 @@ function getStep(current, showLoader) {
 
 function IgniteLogo() {
   return (
-    <span className="inline-flex items-center justify-center w-10 h-10 rounded-full text-white font-extrabold text-3xl select-none pl-2">
+    <span className="inline-flex items-center justify-center w-30 h-30 rounded-full text-white font-extrabold text-3xl select-none pl-2">
       <Logo />
     </span>
   );
@@ -107,12 +107,12 @@ export default function Home() {
     <main className="flex flex-col bg-ignite-animated relative min-h-screen">
       <div className="flex-1 flex flex-col z-10">
         {/* Navbar */}
-        <nav className="w-full bg-gray-50 border-b border-gray-200 py-3 px-2 flex flex-col sm:flex-row items-center sm:items-center justify-between gap-2 ">
+        <nav className="w-full bg-Black-950 border-b border-Gray-700 py-3 px-2 flex flex-col sm:flex-row items-center sm:items-center justify-between gap-2 ">
           <div className="flex items-center gap-1 mb-2 sm:mb-0">
             <IgniteLogo />
-            <span className="text-xl font-bold text-blue-900 hidden sm:inline">
+            {/* <span className="text-xl font-bold text-blue-900 hidden sm:inline">
               IgniteBusinessLoans
-            </span>
+            </span> */}
           </div>
           <div className="w-full sm:w-auto flex-1 flex justify-end">
             <ol className="flex flex-wrap justify-end w-full gap-x-6 gap-y-2 max-w-[600px]">
@@ -120,7 +120,7 @@ export default function Home() {
                 <li
                   key={stepObj.label}
                   className={`flex-1 min-w-[120px] text-base md:text-lg font-semibold transition-colors text-center
-                  ${step === idx ? "text-blue-900" : "text-gray-400"}
+                  ${step === idx ? "text-Orange-200" : "text-gray-400"}
                 `}
                 >
                   {stepObj.label}
@@ -141,7 +141,7 @@ export default function Home() {
           ) : showThankYou ? (
             <div className="bg-white rounded-xl shadow-lg p-10 w-full max-w-lg flex flex-col items-center justify-center text-center">
               <span className="text-5xl mb-4">🎉</span>
-              <h2 className="text-2xl font-bold text-blue-900 mb-2">
+              <h2 className="text-2xl font-bold text-gray-700 mb-2">
                 Your responses have been recorded
               </h2>
               <p className="text-gray-700">We will get back to you soon.</p>
@@ -158,11 +158,11 @@ export default function Home() {
           )}
         </div>
         {/* Responsive Footer */}
-        <footer className="w-full bg-gray-50 border-t border-gray-200 mt-auto">
+        <footer className="w-full bg-Black-950 border-b border-Gray-700 mt-auto">
           <div className="max-w-6xl mx-auto px-4 py-8 flex flex-col items-center">
             <div className="flex flex-col items-center mb-4">
               <IgniteLogo />
-              <span className="text-2xl font-bold text-blue-900">
+              <span className="text-2xl font-bold bg-gradient-to-r from-DeepOrange to-Orange-200 bg-clip-text text-transparent">
                 IgniteBusinessLoans
               </span>
             </div>

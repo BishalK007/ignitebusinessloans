@@ -87,7 +87,7 @@ export default function QuestionCard({
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: -24, scale: 0.98 }}
           transition={{ ...spring, duration: 0.35 }}
-          className="bg-white rounded-xl shadow-lg p-6 sm:p-10 w-full max-w-lg"
+          className="glassmorphic-card"
         >
 
           <h2 className="font-lora text-2xl sm:text-3xl md:text-4xl font-bold text-center text-blue-900 mb-6 sm:mb-8">
@@ -95,7 +95,7 @@ export default function QuestionCard({
           </h2>
           {question.p && (
             <p
-              className="text-center text-gray-500 mb-4 sm:mb-6"
+              className="text-center text-black mb-4 sm:mb-6"
             >
               {question.p}
             </p>
@@ -111,30 +111,10 @@ export default function QuestionCard({
             >
               {question.id === "needFunding"
                 ? question.options.map((option, idx) => {
-                    const isLast =
-                      idx === question.options.length - 1 &&
-                      question.options.length % 2 === 1;
-                    return (
-                      <motion.button
-                        key={option}
-                        whileHover={{ scale: 1.015 }}
-                        whileTap={{ scale: 0.98 }}
-                        transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                        onClick={() => onSelect(option)}
-                        className={`w-full py-3 sm:py-4 px-4 sm:px-6 border rounded-lg text-base sm:text-lg transition-all
-                          ${
-                            selected === option
-                              ? "border-blue-900 bg-blue-50 text-blue-900 font-semibold"
-                              : "border-gray-300 text-gray-700 hover:border-blue-500 hover:bg-blue-200 "
-                          }
-                          ${isLast ? "sm:col-span-2" : ""}
-                        `}
-                      >
-                        {option}
-                      </motion.button>
-                    );
-                  })
-                : question.options.map((option) => (
+                  const isLast =
+                    idx === question.options.length - 1 &&
+                    question.options.length % 2 === 1;
+                  return (
                     <motion.button
                       key={option}
                       whileHover={{ scale: 1.015 }}
@@ -142,15 +122,33 @@ export default function QuestionCard({
                       transition={{ type: "spring", stiffness: 500, damping: 30 }}
                       onClick={() => onSelect(option)}
                       className={`w-full py-3 sm:py-4 px-4 sm:px-6 border rounded-lg text-base sm:text-lg transition-all
-                        ${
-                          selected === option
-                            ? "border-blue-900 bg-blue-50 text-blue-900 font-semibold"
-                            : "border-gray-300 text-gray-700 hover:border-blue-500 hover:bg-blue-200 "
-                        }`}
+                          ${selected === option
+                            ? "border-Gray-100 bg-Gray-100 text-White font-semibold"
+                            : "border-gray-300 text-White hover:border-Gray-100 hover:bg-Gray-100 hover:text-black"
+                        }
+                          ${isLast ? "sm:col-span-2" : ""}
+                        `}
                     >
                       {option}
                     </motion.button>
-                  ))}
+                  );
+                })
+                : question.options.map((option) => (
+                  <motion.button
+                    key={option}
+                    whileHover={{ scale: 1.015 }}
+                    whileTap={{ scale: 0.98 }}
+                    transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                    onClick={() => onSelect(option)}
+                    className={`w-full py-3 sm:py-4 px-4 sm:px-6 border rounded-lg text-base sm:text-lg transition-all
+                        ${selected === option
+                        ? "border-Gray-100 bg-Gray-100 text-White font-semibold"
+                        : "border-gray-300 text-White hover:border-Gray-100 hover:bg-Gray-100 hover:text-black"
+                      }`}
+                  >
+                    {option}
+                  </motion.button>
+                ))}
             </div>
           )}
           {/* Render input if inputType is present */}
@@ -194,7 +192,7 @@ export default function QuestionCard({
               )}
               <button
                 type="submit"
-                className="w-full py-3 px-6 bg-blue-900 text-white rounded-lg font-semibold text-base sm:text-lg hover:bg-blue-800 transition-all"
+                className="w-full py-3 px-6 bg-Orange-500 text-white rounded-lg font-semibold text-base sm:text-lg hover:bg-DeepOrange-600 transition-all"
               >
                 Next
               </button>
@@ -240,7 +238,7 @@ export default function QuestionCard({
               {question.nextButton && (
                 <button
                   type="submit"
-                  className="w-full py-3 px-6 bg-blue-900 text-white rounded-lg font-semibold text-base sm:text-lg hover:bg-blue-800 transition-all mt-2"
+                  className="w-full py-3 px-6 bg-Orange-500 text-white rounded-lg font-semibold text-base sm:text-lg hover:bg-DeepOrange-600 transition-all mt-2"
                   disabled={!isValidUSZip(zipInput) || !zipLocation}
                 >
                   Next
@@ -281,7 +279,7 @@ export default function QuestionCard({
               {question.nextButton && (
                 <button
                   type="submit"
-                  className="w-full py-3 px-6 bg-blue-900 text-white rounded-lg font-semibold text-base sm:text-lg hover:bg-blue-800 transition-all"
+                  className="w-full py-3 px-6 bg-Orange-500 text-white rounded-lg font-semibold text-base sm:text-lg hover:bg-DeepOrange-600 transition-all"
                 >
                   Next
                 </button>
@@ -324,7 +322,7 @@ export default function QuestionCard({
               {question.nextButton && (
                 <button
                   type="submit"
-                  className="w-full py-3 px-6 bg-blue-900 text-white rounded-lg font-semibold text-base sm:text-lg hover:bg-blue-800 transition-all"
+                  className="w-full py-3 px-6 bg-Orange-500 text-white rounded-lg font-semibold text-base sm:text-lg hover:bg-DeepOrange-600 transition-all"
                 >
                   Next
                 </button>
@@ -356,11 +354,11 @@ export default function QuestionCard({
                   {fieldError}
                 </div>
               )}
-              
+
               {question.nextButton && (
                 <button
                   type="submit"
-                  className="w-full py-3 px-6 bg-blue-900 text-white rounded-lg font-semibold text-base sm:text-lg hover:bg-blue-800 transition-all"
+                  className="w-full py-3 px-6 bg-Orange-500 text-white rounded-lg font-semibold text-base sm:text-lg hover:bg-DeepOrange-600 transition-all"
                 >
                   Next
                 </button>
@@ -374,9 +372,9 @@ export default function QuestionCard({
             aria-label="Go back"
             className="pt-10 flex flex-row w-full justify-center"
           >
-          <BackIcon/>
+            <BackIcon />
           </button>
-          
+
         </motion.div>
       </AnimatePresence>
     </div>
