@@ -123,8 +123,8 @@ export default function QuestionCard({
                       onClick={() => onSelect(option)}
                       className={`w-full py-3 sm:py-4 px-4 sm:px-6 border rounded-lg text-base sm:text-lg transition-all
                           ${selected === option
-                            ? "border-Gray-100 bg-Gray-100 text-White font-semibold"
-                            : "border-gray-300 text-White hover:border-Gray-100 hover:bg-Gray-100 hover:text-black"
+                          ? "border-Gray-100 bg-Gray-100 text-Yellow-500 font-semibold"
+                          : "border-gray-300 text-White hover:text-white hover:border-Orange-100 hover:bg-orange-400/10"
                         }
                           ${isLast ? "sm:col-span-2" : ""}
                         `}
@@ -142,8 +142,8 @@ export default function QuestionCard({
                     onClick={() => onSelect(option)}
                     className={`w-full py-3 sm:py-4 px-4 sm:px-6 border rounded-lg text-base sm:text-lg transition-all
                         ${selected === option
-                        ? "border-Gray-100 bg-Gray-100 text-White font-semibold"
-                        : "border-gray-300 text-White hover:border-Gray-100 hover:bg-Gray-100 hover:text-black"
+                        ? "border-gray-100 bg-gray-100/5 text-Yellow-500 font-semibold"
+                        : "border-gray-300 text-White hover:text-white hover:border-Orange-100 hover:bg-orange-400/10"
                       }`}
                   >
                     {option}
@@ -192,7 +192,7 @@ export default function QuestionCard({
               )}
               <button
                 type="submit"
-                className="w-full py-3 px-6 bg-Orange-500 text-white rounded-lg font-semibold text-base sm:text-lg hover:bg-DeepOrange-600 transition-all"
+                className="w-full py-3 px-6 bg-[rgba(255,255,255,0.1)] text-white rounded-lg font-semibold text-base sm:text-lg hover:bg-[rgba(255,255,255,0.2)] transition-all"
               >
                 Next
               </button>
@@ -238,7 +238,7 @@ export default function QuestionCard({
               {question.nextButton && (
                 <button
                   type="submit"
-                  className="w-full py-3 px-6 bg-Orange-500 text-white rounded-lg font-semibold text-base sm:text-lg hover:bg-DeepOrange-600 transition-all mt-2"
+                  className="w-full py-3 px-6 bg-[rgba(255,255,255,0.1)] text-white rounded-lg font-semibold text-base sm:text-lg hover:bg-[rgba(255,255,255,0.2)] transition-all mt-2"
                   disabled={!isValidUSZip(zipInput) || !zipLocation}
                 >
                   Next
@@ -279,7 +279,7 @@ export default function QuestionCard({
               {question.nextButton && (
                 <button
                   type="submit"
-                  className="w-full py-3 px-6 bg-Orange-500 text-white rounded-lg font-semibold text-base sm:text-lg hover:bg-DeepOrange-600 transition-all"
+                  className="w-full py-3 px-6 bg-[rgba(255,255,255,0.1)] text-white rounded-lg font-semibold text-base sm:text-lg hover:bg-[rgba(255,255,255,0.2)] transition-all"
                 >
                   Next
                 </button>
@@ -322,7 +322,7 @@ export default function QuestionCard({
               {question.nextButton && (
                 <button
                   type="submit"
-                  className="w-full py-3 px-6 bg-Orange-500 text-white rounded-lg font-semibold text-base sm:text-lg hover:bg-DeepOrange-600 transition-all"
+                  className="w-full py-3 px-6 bg-[rgba(255,255,255,0.1)] text-white rounded-lg font-semibold text-base sm:text-lg hover:bg-[rgba(255,255,255,0.2)] transition-all"
                 >
                   Next
                 </button>
@@ -358,7 +358,7 @@ export default function QuestionCard({
               {question.nextButton && (
                 <button
                   type="submit"
-                  className="w-full py-3 px-6 bg-Orange-500 text-white rounded-lg font-semibold text-base sm:text-lg hover:bg-DeepOrange-600 transition-all"
+                  className="w-full py-3 px-6 bg-[rgba(255,255,255,0.1)] text-white rounded-lg font-semibold text-base sm:text-lg hover:bg-[rgba(255,255,255,0.2)] transition-all"
                 >
                   Next
                 </button>

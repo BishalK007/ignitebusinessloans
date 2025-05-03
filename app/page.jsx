@@ -162,9 +162,6 @@ export default function Home() {
           <div className="max-w-6xl mx-auto px-4 py-8 flex flex-col items-center">
             <div className="flex flex-col items-center mb-4">
               <IgniteLogo />
-              <span className="text-2xl font-bold bg-gradient-to-r from-DeepOrange to-Orange-200 bg-clip-text text-transparent">
-                IgniteBusinessLoans
-              </span>
             </div>
             <div className="text-gray-400 text-sm text-center">
               © {new Date().getFullYear()} IgniteBusinessLoans. All rights

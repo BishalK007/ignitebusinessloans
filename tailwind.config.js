@@ -22,6 +22,7 @@ module.exports = {
         },
         Orange: {
           DEFAULT: "#d35523",
+          100:"#fc9758",
           200:"#ff6467",
           500: "#d35523", // Default shade
           600: "#b8431f", // Slightly darker for hover
@@ -35,6 +36,11 @@ module.exports = {
           DEFAULT: "a0a0a0",
           100:"#d1d5dc",
           700: "#5e5e5e",
+        },
+        Yellow: {
+          DEFAULT: "#eeff00",
+          100:"#edffb2",
+          500:"#fff842",
         },
       },
       fontFamily: {
