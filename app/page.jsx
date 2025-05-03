@@ -7,6 +7,8 @@ import dynamic from "next/dynamic";
 const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 import planeLottie from "@/public/assets/loading_plane_lottie.json";
 import Logo from "@/components/icons/logo";
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
+
 
 const NAV_STEPS = [
   { label: "Basic Info", range: [0, 4] },
@@ -26,7 +28,7 @@ function getStep(current, showLoader) {
 
 function IgniteLogo() {
   return (
-    <span className="inline-flex items-center justify-center w-30 h-30 rounded-full text-white font-extrabold text-3xl select-none pl-2">
+    <span className="inline-flex items-center justify-center w-36 h-36 rounded-full text-white font-extrabold text-3xl select-none pl-2">
       <Logo />
     </span>
   );
@@ -67,11 +69,10 @@ function Loader({ onDone }) {
         {processingTexts.map((txt, idx) => (
           <span
             key={idx}
-            className={`text-base md:text-lg font-medium transition-opacity duration-500 ${
-              idx === step
-                ? "opacity-100 text-blue-900"
-                : "opacity-60 text-gray-900"
-            }`}
+            className={`text-base md:text-lg font-medium transition-opacity duration-500 ${idx === step
+              ? "opacity-100 text-stone-200"
+              : "opacity-60 text-stone-200"
+              }`}
           >
             {txt}
           </span>
@@ -104,18 +105,40 @@ export default function Home() {
   };
 
   return (
-    <main className="flex flex-col bg-ignite-animated relative min-h-screen">
+    <main className="flex flex-col  relative min-h-screen">
+      <div
+        className="bg-ignite-animated"
+        style={{
+          position: "fixed",
+          inset: 0,
+          width: "100vw",
+          height: "100dvh",
+          zIndex: 0,
+          pointerEvents: "none",
+        }}
+      >
+        {/* BG */}
+        <div className="floating-ball orange size1"></div>
+        <div className="floating-ball brown size2"></div>
+        <div className="floating-ball orange size3"></div>
+        <div className="floating-ball brown size4"></div>
+        <div className="floating-ball orange size5"></div>
+        <div className="floating-ball brown size6"></div>
+        <div className="floating-ball orange size7"></div>
+        <div className="floating-ball brown size8"></div>
+        <div className="floating-ball orange size9"></div>
+        <div className="floating-ball brown size10"></div>
+      </div>
+
+      {/* Main div */}
       <div className="flex-1 flex flex-col z-10">
         {/* Navbar */}
-        <nav className="w-full bg-Black-950 border-b border-Gray-700 py-3 px-2 flex flex-col sm:flex-row items-center sm:items-center justify-between gap-2 ">
-          <div className="flex items-center gap-1 mb-2 sm:mb-0">
+        <nav className="w-full py-3 px-2 flex flex-col sm:flex-row items-center sm:items-center justify-between gap-2 ">
+          <div className="flex items-center gap-1 mb-2 sm:mb-0 ">
             <IgniteLogo />
-            {/* <span className="text-xl font-bold text-blue-900 hidden sm:inline">
-              IgniteBusinessLoans
-            </span> */}
           </div>
-          <div className="w-full sm:w-auto flex-1 flex justify-end">
-            <ol className="flex flex-wrap justify-end w-full gap-x-6 gap-y-2 max-w-[600px]">
+          <div className="w-full sm:w-auto flex-1 flex justify-end max-w-[500px]">
+            <ol className="flex flex-wrap justify-end w-full gap-x-6 gap-y-2 ">
               {NAV_STEPS.map((stepObj, idx) => (
                 <li
                   key={stepObj.label}
@@ -132,19 +155,26 @@ export default function Home() {
         {/* Main Content */}
         <div className="flex-1 flex items-center justify-center px-2">
           {showLoader ? (
-            <Loader
-              onDone={() => {
-                setShowLoader(false);
-                setShowThankYou(true);
-              }}
-            />
+            <div className="text-stone-200 rounded-xl shadow-lg p-10 w-full max-w-lg flex flex-col items-center justify-center text-center">
+              <Loader
+                onDone={() => {
+                  setShowLoader(false);
+                  setShowThankYou(true);
+                }}
+              />
+            </div>
           ) : showThankYou ? (
-            <div className="bg-white rounded-xl shadow-lg p-10 w-full max-w-lg flex flex-col items-center justify-center text-center">
-              <span className="text-5xl mb-4">🎉</span>
-              <h2 className="text-2xl font-bold text-gray-700 mb-2">
+            <div className="bg-gray-400/20 rounded-xl shadow-lg p-10 w-full max-w-lg flex flex-col items-center justify-center text-center">
+              <DotLottieReact
+                src="https://lottie.host/e8c90258-9d4b-431c-8c92-3a5265537042/NvFzQRXoPm.lottie"
+                loop
+                autoplay
+                className="w-32 h-32 mb-4"
+              />
+              <h2 className="text-2xl font-bold text-stone-300 mb-2">
                 Your responses have been recorded
               </h2>
-              <p className="text-gray-700">We will get back to you soon.</p>
+              <p className="text-stone-300">We will get back to you soon.</p>
             </div>
           ) : (
             <QuestionCard
@@ -158,7 +188,7 @@ export default function Home() {
           )}
         </div>
         {/* Responsive Footer */}
-        <footer className="w-full bg-Black-950 border-b border-Gray-700 mt-auto">
+        <footer className="w-full bg-Black-950 bg-opacity-70 mt-auto">
           <div className="max-w-6xl mx-auto px-4 py-8 flex flex-col items-center">
             <div className="flex flex-col items-center mb-4">
               <IgniteLogo />

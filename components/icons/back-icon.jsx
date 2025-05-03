@@ -18,7 +18,7 @@ const BackIcon = ({ className = "", ...props }) => (
       <path
         d="M94.861 156.507a7.502 7.502 0 0 0 10.606 0 7.499 7.499 0 0 0-.001-10.608l-28.82-28.819 83.457-.008a7.5 7.5 0 0 0-.001-15l-83.46.008 28.827-28.825a7.5 7.5 0 0 0-10.607-10.608l-41.629 41.628a7.495 7.495 0 0 0-2.197 5.303 7.51 7.51 0 0 0 2.198 5.305l41.627 41.624z"
         fill="currentColor"
-        className="transition-colors group-hover:fill-white group-hover:scale-110"
+        className="transition-colors group-hover:fill-white"
       />
     </svg>
   </span>

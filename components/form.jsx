@@ -123,7 +123,7 @@ export default function QuestionCard({
                       onClick={() => onSelect(option)}
                       className={`w-full py-3 sm:py-4 px-4 sm:px-6 border rounded-lg text-base sm:text-lg transition-all
                           ${selected === option
-                          ? "border-Gray-100 bg-Gray-100 text-Yellow-500 font-semibold"
+                          ? "border-gray-100 bg-gray-100/5 text-Yellow-500 font-semibold"
                           : "border-gray-300 text-White hover:text-white hover:border-Orange-100 hover:bg-orange-400/10"
                         }
                           ${isLast ? "sm:col-span-2" : ""}
@@ -173,7 +173,7 @@ export default function QuestionCard({
                   type="text"
                   placeholder="First Name"
                   autoComplete="given-name"
-                  className="flex-1 border border-gray-300 rounded-lg px-4 py-3 text-base sm:text-lg focus:outline-none focus:border-blue-900 text-blue-900 placeholder-gray-400 transition-shadow focus:shadow-md"
+                  className="GlossyInputField"
                   required
                 />
                 <input
@@ -181,7 +181,7 @@ export default function QuestionCard({
                   type="text"
                   placeholder="Last Name"
                   autoComplete="family-name"
-                  className="flex-1 border border-gray-300 rounded-lg px-4 py-3 text-base sm:text-lg focus:outline-none focus:border-blue-900 text-blue-900 placeholder-gray-400 transition-shadow focus:shadow-md"
+                  className="GlossyInputField"
                   required
                 />
               </div>
@@ -192,7 +192,7 @@ export default function QuestionCard({
               )}
               <button
                 type="submit"
-                className="w-full py-3 px-6 bg-[rgba(255,255,255,0.1)] text-white rounded-lg font-semibold text-base sm:text-lg hover:bg-[rgba(255,255,255,0.2)] transition-all"
+                className="PrimaryColorChangeBtn"
               >
                 Next
               </button>
@@ -216,7 +216,7 @@ export default function QuestionCard({
                 inputMode="numeric"
                 pattern="\d{5}"
                 placeholder={question.placeholder || ""}
-                className="w-full border border-gray-300 rounded-lg px-4 py-3 text-base sm:text-lg mb-2 focus:outline-none focus:border-blue-900 text-blue-900 placeholder-gray-400 transition-shadow focus:shadow-md"
+                className="w-full GlossyInputField"
                 required
                 value={zipInput}
                 onChange={handleZipChange}
@@ -225,7 +225,7 @@ export default function QuestionCard({
               <div className="w-full min-h-[1.5em] text-sm text-left px-1">
                 {zipInput.length === 5 &&
                   (zipLocation ? (
-                    <span className="text-blue-900">{zipLocation}</span>
+                    <span className="text-stone-200">{zipLocation}</span>
                   ) : zipError ? (
                     <span className="text-red-500">{zipError}</span>
                   ) : null)}
@@ -238,7 +238,7 @@ export default function QuestionCard({
               {question.nextButton && (
                 <button
                   type="submit"
-                  className="w-full py-3 px-6 bg-[rgba(255,255,255,0.1)] text-white rounded-lg font-semibold text-base sm:text-lg hover:bg-[rgba(255,255,255,0.2)] transition-all mt-2"
+                  className="PrimaryColorChangeBtn mt-2"
                   disabled={!isValidUSZip(zipInput) || !zipLocation}
                 >
                   Next
@@ -265,7 +265,7 @@ export default function QuestionCard({
                 name="input"
                 type="tel"
                 placeholder="(212) 555-1234"
-                className="w-full border border-gray-300 rounded-lg px-4 py-3 text-base sm:text-lg mb-2 focus:outline-none focus:border-blue-900 text-blue-900 placeholder-gray-400 transition-shadow focus:shadow-md"
+                className="w-full mb-3 GlossyInputField"
                 required
                 value={phoneInput}
                 onChange={(e) => setPhoneInput(formatPhone(e.target.value))}
@@ -279,7 +279,7 @@ export default function QuestionCard({
               {question.nextButton && (
                 <button
                   type="submit"
-                  className="w-full py-3 px-6 bg-[rgba(255,255,255,0.1)] text-white rounded-lg font-semibold text-base sm:text-lg hover:bg-[rgba(255,255,255,0.2)] transition-all"
+                  className="PrimaryColorChangeBtn"
                 >
                   Next
                 </button>
@@ -300,15 +300,15 @@ export default function QuestionCard({
               }}
             >
               <div className="relative w-full mb-2">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-blue-900 text-lg font-bold pointer-events-none">
+                {/* <span className="absolute left-4 top-1/2 -translate-y-1/2 text-orange-700 text-lg font-bold pointer-events-none">
                   $
-                </span>
+                </span> */}
                 <input
                   name="input"
                   type="number"
                   inputMode="numeric"
-                  placeholder="500,000"
-                  className="pl-8 border border-gray-300 rounded-lg px-4 py-3 text-base sm:text-lg w-full focus:outline-none focus:border-blue-900 text-blue-900 placeholder-gray-400 transition-shadow focus:shadow-md"
+                  placeholder="$500,000"
+                  className="pl-8 GlossyInputField"
                   required
                   min={1}
                   step="any"
@@ -322,7 +322,7 @@ export default function QuestionCard({
               {question.nextButton && (
                 <button
                   type="submit"
-                  className="w-full py-3 px-6 bg-[rgba(255,255,255,0.1)] text-white rounded-lg font-semibold text-base sm:text-lg hover:bg-[rgba(255,255,255,0.2)] transition-all"
+                  className="PrimaryColorChangeBtn"
                 >
                   Next
                 </button>
@@ -346,7 +346,7 @@ export default function QuestionCard({
                 name="input"
                 type={question.inputType}
                 placeholder={question.placeholder || ""}
-                className="w-full border border-gray-300 rounded-lg px-4 py-3 text-base sm:text-lg mb-2 focus:outline-none focus:border-blue-900 text-blue-900 placeholder-gray-400 transition-shadow focus:shadow-md"
+                className="w-full mb-3 GlossyInputField"
                 required
               />
               {fieldError && (
@@ -358,7 +358,7 @@ export default function QuestionCard({
               {question.nextButton && (
                 <button
                   type="submit"
-                  className="w-full py-3 px-6 bg-[rgba(255,255,255,0.1)] text-white rounded-lg font-semibold text-base sm:text-lg hover:bg-[rgba(255,255,255,0.2)] transition-all"
+                  className="PrimaryColorChangeBtn"
                 >
                   Next
                 </button>
