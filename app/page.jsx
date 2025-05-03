@@ -26,9 +26,9 @@ function getStep(current, showLoader) {
 
 function IgniteLogo() {
   return (
-      <span className="inline-flex items-center justify-center w-36 h-36 rounded-full text-white font-extrabold text-3xl select-none pl-2">
-        <Logo />
-      </span>
+    <span className="inline-flex items-center justify-center w-36 h-36 rounded-full text-white font-extrabold text-3xl select-none pl-2">
+      <Logo />
+    </span>
   );
 }
 
@@ -104,25 +104,37 @@ export default function Home() {
   };
 
   return (
-    <main className="flex flex-col bg-ignite-animated relative min-h-screen">
-      {/* BG */}
-      <div className="floating-ball orange size1"></div>
-      <div className="floating-ball brown size2"></div>
-      <div className="floating-ball orange size3"></div>
-      <div className="floating-ball brown size4"></div>
-      <div className="floating-ball orange size5"></div>
-      <div className="floating-ball brown size6"></div>
-      <div className="floating-ball orange size7"></div>
-      <div className="floating-ball brown size8"></div>
-      <div className="floating-ball orange size9"></div>
-      <div className="floating-ball brown size10"></div>
+    <main className="flex flex-col  relative min-h-screen">
+      <div
+        className="bg-ignite-animated"
+        style={{
+          position: "fixed",
+          inset: 0,
+          width: "100vw",
+          height: "100dvh",
+          zIndex: 0,
+          pointerEvents: "none",
+        }}
+      >
+        {/* BG */}
+        <div className="floating-ball orange size1"></div>
+        <div className="floating-ball brown size2"></div>
+        <div className="floating-ball orange size3"></div>
+        <div className="floating-ball brown size4"></div>
+        <div className="floating-ball orange size5"></div>
+        <div className="floating-ball brown size6"></div>
+        <div className="floating-ball orange size7"></div>
+        <div className="floating-ball brown size8"></div>
+        <div className="floating-ball orange size9"></div>
+        <div className="floating-ball brown size10"></div>
+      </div>
 
       {/* Main div */}
       <div className="flex-1 flex flex-col z-10">
         {/* Navbar */}
         <nav className="w-full py-3 px-2 flex flex-col sm:flex-row items-center sm:items-center justify-between gap-2 ">
           <div className="flex items-center gap-1 mb-2 sm:mb-0 ">
-            <IgniteLogo/>
+            <IgniteLogo />
           </div>
           <div className="w-full sm:w-auto flex-1 flex justify-end max-w-[500px]">
             <ol className="flex flex-wrap justify-end w-full gap-x-6 gap-y-2 ">

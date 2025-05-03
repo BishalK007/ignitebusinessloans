@@ -153,12 +153,12 @@ html, body {
 .glassmorphic-card {
   width: 90%;
   max-width: 500px;
-  background: rgba(255, 255, 255, 0.039);
+  background: rgba(255, 255, 255, 0.051);
   border-radius: 16px;
   backdrop-filter: blur(80px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 8px 14px rgba(251, 251, 251, 0.507);
+  border: 1px solid color-mix(in srgb, var(--foreground) 30%, transparent);
+  box-shadow: 0 0 8px 1px color-mix(in srgb, var(--foreground) 40%, transparent), 0 0 0 1px color-mix(in srgb, var(--foreground) 12%, transparent);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -191,7 +191,7 @@ html, body {
     transform: translate(0, 0);
   }
   100% {
-    transform: translate(50px, 50px);
+    transform: translate(50px, 150px);
   }
 }
 
