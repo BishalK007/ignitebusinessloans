@@ -10,27 +10,35 @@ module.exports = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
-        primary: "#0a3977",
-        secondary: "#00b8a9",
-
+        accent: {
+          orange: "var(--accent-orange)",
+          brown: "var(--accent-brown)",
+          // Example lighter/darker shades using color-mix
+          orangeLight: "color-mix(in srgb, var(--accent-orange) 70%, white)",
+          orangeDark: "color-mix(in srgb, var(--accent-orange) 70%, black)",
+          brownLight: "color-mix(in srgb, var(--accent-brown) 70%, white)",
+          brownDark: "color-mix(in srgb, var(--accent-brown) 70%, black)",
+        },
+        primary: "var(--accent-orange)",
+        secondary: "var(--accent-brown)",
         Black: {
-          DEFAULT: "#0f1418",
-          950: "#030712"
+          DEFAULT: "var(--background)",
+          950: "color-mix(in srgb, var(--background) 80%, black)",
         },
         White: {
-          DEFAULT: "#efe6d5",
+          DEFAULT: "var(--foreground)",
         },
         Orange: {
-          DEFAULT: "#d35523",
-          100:"#fc9758",
-          200:"#ff6467",
-          500: "#d35523", // Default shade
-          600: "#b8431f", // Slightly darker for hover
+          DEFAULT: "var(--accent-orange)",
+          100: "color-mix(in srgb, var(--accent-orange) 20%, white)",
+          200: "color-mix(in srgb, var(--accent-orange) 40%, white)",
+          500: "var(--accent-orange)",
+          600: "color-mix(in srgb, var(--accent-orange) 80%, black)",
         },
         DeepOrange: {
-          DEFAULT: "#702604",
-          500: "#702604", // Default shade
-          600: "#5a1f03", // Slightly darker for hover
+          DEFAULT: "var(--accent-brown)",
+          500: "var(--accent-brown)",
+          600: "color-mix(in srgb, var(--accent-brown) 80%, black)",
         },
         Gray: {
           DEFAULT: "a0a0a0",
@@ -44,7 +52,7 @@ module.exports = {
         },
       },
       fontFamily: {
-        lora: ['Lora', 'serif'],
+        barlow: 'var(--font-barlow)',
       },
     },
   },
