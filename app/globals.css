@@ -7,6 +7,7 @@
 
 :root {
   --background: #0E1317;
+  --background-rgba-60: rgba(14, 19, 23, 0.6);
   --foreground: #EDE4D3;
   --accent-orange: #CE501E;
   --accent-brown: #7B3009;

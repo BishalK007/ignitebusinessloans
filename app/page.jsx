@@ -188,12 +188,12 @@ export default function Home() {
           )}
         </div>
         {/* Responsive Footer */}
-        <footer className="w-full bg-Black-950 bg-opacity-70 mt-auto">
+        <footer className="w-ful mt-auto bg-[var(--background-rgba-60)]">
           <div className="max-w-6xl mx-auto px-4 py-8 flex flex-col items-center">
             <div className="flex flex-col items-center mb-4">
               <IgniteLogo />
             </div>
-            <div className="text-gray-400 text-sm text-center">
+            <div className=" text-sm text-center">
               © {new Date().getFullYear()} IgniteBusinessLoans. All rights
               reserved.
             </div>
