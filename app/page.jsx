@@ -11,10 +11,10 @@ import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
 
 const NAV_STEPS = [
-  { label: "Basic Info", range: [0, 4] },
-  { label: "Your Business", range: [5, 8] },
-  { label: "Your Info", range: [9, 12] },
-  { label: "Offers and Final Details", range: [13, 13] }, // Only after submit/loading
+  { label: "BASIC INFO", range: [0, 4] },
+  { label: "YOUR BUSINESS", range: [5, 8] },
+  { label: "YOUR INFO", range: [9, 12] },
+  { label: "OFFERS AND FINAL DETAILS", range: [13, 13] }, // Only after submit/loading
 ];
 
 function getStep(current, showLoader) {
@@ -28,7 +28,7 @@ function getStep(current, showLoader) {
 
 function IgniteLogo() {
   return (
-    <span className="inline-flex items-center justify-center w-36 h-36 rounded-full text-white font-extrabold text-3xl select-none pl-2">
+    <span className="inline-flex items-center justify-center w-36 h-36 rounded-full text-white font-extrabold  text-3xl select-none pl-2">
       <Logo />
     </span>
   );
@@ -110,7 +110,7 @@ export default function Home() {
   };
 
   return (
-    <main className="flex flex-col  relative min-h-screen">
+    <main className="flex flex-col  relative min-h-screen text-foreground">
       <div
         className="bg-ignite-animated"
         style={{
@@ -138,8 +138,8 @@ export default function Home() {
       {/* Main div */}
       <div className="flex-1 flex flex-col z-10">
         {/* Navbar */}
-        <nav className="w-full py-3 px-2 flex flex-col sm:flex-row items-center sm:items-center justify-between gap-2">
-          <div className="flex items-center gap-1 mb-2 sm:mb-0">
+        <nav className="w-full py-3 px-2 flex flex-col sm:flex-row items-center sm:items-center justify-between gap-2 font-barlow">
+          <div className="flex items-center gap-1 mb-2 sm:mb-0 ">
             <IgniteLogo />
           </div>
           {/* For larger screens, show the full navbar */}
@@ -179,14 +179,14 @@ export default function Home() {
               />
             </div>
           ) : showThankYou ? (
-            <div className="bg-gray-400/20 rounded-xl shadow-lg p-10 w-full max-w-lg flex flex-col items-center justify-center text-center">
+            <div className="glassmorphic-card rounded-xl shadow-lg p-10 w-full max-w-lg flex flex-col items-center justify-center text-center">
               <DotLottieReact
                 src="https://lottie.host/e8c90258-9d4b-431c-8c92-3a5265537042/NvFzQRXoPm.lottie"
                 loop
                 autoplay
                 className="w-32 h-32 mb-4"
               />
-              <h2 className="text-2xl font-bold text-stone-300 mb-2">
+              <h2 className="text-2xl font-bold text-stone-300 mb-2 ">
                 Your responses have been recorded
               </h2>
               <p className="text-stone-300">We will get back to you soon.</p>
@@ -203,12 +203,12 @@ export default function Home() {
           )}
         </div>
         {/* Responsive Footer */}
-        <footer className="w-full bg-Black-950 bg-opacity-70 mt-auto">
+        <footer className="w-ful mt-auto bg-[var(--background-rgba-60)]">
           <div className="max-w-6xl mx-auto px-4 py-8 flex flex-col items-center">
             <div className="flex flex-col items-center mb-4">
               <IgniteLogo />
             </div>
-            <div className="text-gray-400 text-sm text-center">
+            <div className=" text-sm text-center">
               © {new Date().getFullYear()} IgniteBusinessLoans. All rights
               reserved.
             </div>

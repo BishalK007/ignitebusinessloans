@@ -79,7 +79,7 @@ export default function QuestionCard({
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 sm:p-10">
+    <div className=" min-h-screen flex items-center justify-center p-4 sm:p-10 font-barlow">
       <AnimatePresence mode="wait">
         <motion.div
           key={question.id}
@@ -87,16 +87,13 @@ export default function QuestionCard({
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: -24, scale: 0.98 }}
           transition={{ ...spring, duration: 0.35 }}
-          className="glassmorphic-card"
+          className="glassmorphic-card font-barlow  "
         >
-
-          <h2 className="font-lora text-2xl sm:text-3xl md:text-4xl font-bold text-center text-blue-900 mb-6 sm:mb-8">
+          <h2 className="font-barlow text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-6 sm:mb-8 ">
             {question.title}
           </h2>
           {question.p && (
-            <p
-              className="text-center text-black mb-4 sm:mb-6"
-            >
+            <p className="font-barlow text-center mb-4 sm:mb-6  ">
               {question.p}
             </p>
           )}
@@ -105,8 +102,8 @@ export default function QuestionCard({
             <div
               className={
                 question.id === "needFunding"
-                  ? "grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4"
-                  : "space-y-3 sm:space-y-4"
+                  ? "grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 font-barlow  "
+                  : "space-y-3 sm:space-y-4 font-barlow  "
               }
             >
               {question.id === "needFunding"
@@ -121,10 +118,10 @@ export default function QuestionCard({
                       whileTap={{ scale: 0.98 }}
                       transition={{ type: "spring", stiffness: 500, damping: 30 }}
                       onClick={() => onSelect(option)}
-                      className={`w-full py-3 sm:py-4 px-4 sm:px-6 border rounded-lg text-base sm:text-lg transition-all
+                      className={`w-full py-3 sm:py-4 px-4 sm:px-6 border rounded-lg text-base sm:text-lg transition-all font-barlow  
                           ${selected === option
                           ? "border-gray-100 bg-gray-100/5 text-Yellow-500 font-semibold"
-                          : "border-gray-300 text-White hover:text-white hover:border-Orange-100 hover:bg-orange-400/10"
+                          : "border-gray-300   hover:text-white hover:border-Orange-100 hover:bg-orange-400/10"
                         }
                           ${isLast ? "sm:col-span-2" : ""}
                         `}
@@ -140,10 +137,10 @@ export default function QuestionCard({
                     whileTap={{ scale: 0.98 }}
                     transition={{ type: "spring", stiffness: 500, damping: 30 }}
                     onClick={() => onSelect(option)}
-                    className={`w-full py-3 sm:py-4 px-4 sm:px-6 border rounded-lg text-base sm:text-lg transition-all
+                    className={`w-full py-3 sm:py-4 px-4 sm:px-6 border rounded-lg text-base sm:text-lg transition-all font-barlow  
                         ${selected === option
                         ? "border-gray-100 bg-gray-100/5 text-Yellow-500 font-semibold"
-                        : "border-gray-300 text-White hover:text-white hover:border-Orange-100 hover:bg-orange-400/10"
+                        : "border-gray-300   hover:text-white hover:border-Orange-100 hover:bg-orange-400/10"
                       }`}
                   >
                     {option}
@@ -154,7 +151,7 @@ export default function QuestionCard({
           {/* Render input if inputType is present */}
           {question.inputType === "fullName" ? (
             <form
-              className="mt-5 flex flex-col items-center"
+              className="mt-5 flex flex-col items-center font-barlow  w-full"
               onSubmit={(e) => {
                 e.preventDefault();
                 const first = e.target.elements.firstName.value.trim();
@@ -167,13 +164,13 @@ export default function QuestionCard({
                 onSelect({ firstName: first, lastName: last });
               }}
             >
-              <div className="flex flex-col gap-3 sm:gap-4 w-full mb-2">
+              <div className="flex flex-col gap-3 sm:gap-4 w-full mb-2 font-barlow ">
                 <input
                   name="firstName"
                   type="text"
                   placeholder="First Name"
                   autoComplete="given-name"
-                  className="GlossyInputField"
+                  className="GlossyInputField font-barlow "
                   required
                 />
                 <input
@@ -181,25 +178,25 @@ export default function QuestionCard({
                   type="text"
                   placeholder="Last Name"
                   autoComplete="family-name"
-                  className="GlossyInputField"
+                  className="GlossyInputField font-barlow  "
                   required
                 />
               </div>
               {fieldError && (
-                <div className="w-full text-left text-red-500 text-sm mb-2">
+                <div className="w-full text-left text-red-500 text-sm mb-2 font-barlow  ">
                   {fieldError}
                 </div>
               )}
               <button
                 type="submit"
-                className="PrimaryColorChangeBtn"
+                className="PrimaryColorChangeBtn font-barlow  "
               >
                 Next
               </button>
             </form>
           ) : question.id === "ZipCode" ? (
             <form
-              className="mt-5 flex flex-col items-center"
+              className="mt-5 flex flex-col items-center font-barlow  "
               onSubmit={(e) => {
                 e.preventDefault();
                 if (!isValidUSZip(zipInput) || !zipLocation) {
@@ -216,29 +213,29 @@ export default function QuestionCard({
                 inputMode="numeric"
                 pattern="\d{5}"
                 placeholder={question.placeholder || ""}
-                className="w-full GlossyInputField"
+                className="w-full GlossyInputField font-barlow  "
                 required
                 value={zipInput}
                 onChange={handleZipChange}
                 maxLength={5}
               />
-              <div className="w-full min-h-[1.5em] text-sm text-left px-1">
+              <div className="w-full min-h-[1.5em] text-sm text-left px-1 font-barlow  ">
                 {zipInput.length === 5 &&
                   (zipLocation ? (
-                    <span className="text-stone-200">{zipLocation}</span>
+                    <span className="text-stone-200 font-barlow">{zipLocation}</span>
                   ) : zipError ? (
-                    <span className="text-red-500">{zipError}</span>
+                    <span className="text-red-500 font-barlow">{zipError}</span>
                   ) : null)}
               </div>
               {fieldError && (
-                <div className="w-full text-left text-red-500 text-sm mb-2">
+                <div className="w-full text-left text-red-500 text-sm mb-2 font-barlow  ">
                   {fieldError}
                 </div>
               )}
               {question.nextButton && (
                 <button
                   type="submit"
-                  className="PrimaryColorChangeBtn mt-2"
+                  className="PrimaryColorChangeBtn mt-2 font-barlow  "
                   disabled={!isValidUSZip(zipInput) || !zipLocation}
                 >
                   Next
@@ -247,7 +244,7 @@ export default function QuestionCard({
             </form>
           ) : question.id === "phoneNumber" ? (
             <form
-              className="mt-5 flex flex-col items-center"
+              className="mt-5 flex flex-col items-center font-barlow  "
               onSubmit={(e) => {
                 e.preventDefault();
                 const val = e.target.elements.input.value;
@@ -265,21 +262,21 @@ export default function QuestionCard({
                 name="input"
                 type="tel"
                 placeholder="(212) 555-1234"
-                className="w-full mb-3 GlossyInputField"
+                className="w-full mb-3 GlossyInputField font-barlow  "
                 required
                 value={phoneInput}
                 onChange={(e) => setPhoneInput(formatPhone(e.target.value))}
                 maxLength={14}
               />
               {fieldError && (
-                <div className="w-full text-left text-red-500 text-sm mb-2">
+                <div className="w-full text-left text-red-500 text-sm mb-2 font-barlow  ">
                   {fieldError}
                 </div>
               )}
               {question.nextButton && (
                 <button
                   type="submit"
-                  className="PrimaryColorChangeBtn"
+                  className="PrimaryColorChangeBtn font-barlow  "
                 >
                   Next
                 </button>
@@ -287,7 +284,7 @@ export default function QuestionCard({
             </form>
           ) : question.id === "annualRevenue" ? (
             <form
-              className="mt-5 flex flex-col items-center"
+              className="mt-5 flex flex-col items-center font-barlow  "
               onSubmit={(e) => {
                 e.preventDefault();
                 const val = e.target.elements.input.value.replace(/,/g, "");
@@ -299,30 +296,27 @@ export default function QuestionCard({
                 onSelect(val);
               }}
             >
-              <div className="relative w-full mb-2">
-                {/* <span className="absolute left-4 top-1/2 -translate-y-1/2 text-orange-700 text-lg font-bold pointer-events-none">
-                  $
-                </span> */}
+              <div className="relative w-full mb-2 font-barlow  ">
                 <input
                   name="input"
                   type="number"
                   inputMode="numeric"
                   placeholder="$500,000"
-                  className="pl-8 GlossyInputField"
+                  className="pl-8 GlossyInputField font-barlow  "
                   required
                   min={1}
                   step="any"
                 />
               </div>
               {fieldError && (
-                <div className="w-full text-left text-red-500 text-sm mb-2">
+                <div className="w-full text-left text-red-500 text-sm mb-2 font-barlow  ">
                   {fieldError}
                 </div>
               )}
               {question.nextButton && (
                 <button
                   type="submit"
-                  className="PrimaryColorChangeBtn"
+                  className="PrimaryColorChangeBtn font-barlow  "
                 >
                   Next
                 </button>
@@ -330,7 +324,7 @@ export default function QuestionCard({
             </form>
           ) : question.inputType ? (
             <form
-              className="mt-5 flex flex-col items-center"
+              className="mt-5 flex flex-col items-center font-barlow  "
               onSubmit={(e) => {
                 e.preventDefault();
                 const value = e.target.elements.input.value;
@@ -346,11 +340,11 @@ export default function QuestionCard({
                 name="input"
                 type={question.inputType}
                 placeholder={question.placeholder || ""}
-                className="w-full mb-3 GlossyInputField"
+                className="w-full mb-3 GlossyInputField font-barlow  "
                 required
               />
               {fieldError && (
-                <div className="w-full text-left text-red-500 text-sm mb-2">
+                <div className="w-full text-left text-red-500 text-sm mb-2 font-barlow  ">
                   {fieldError}
                 </div>
               )}
@@ -358,7 +352,7 @@ export default function QuestionCard({
               {question.nextButton && (
                 <button
                   type="submit"
-                  className="PrimaryColorChangeBtn"
+                  className="PrimaryColorChangeBtn font-barlow  "
                 >
                   Next
                 </button>
@@ -370,11 +364,10 @@ export default function QuestionCard({
             type="button"
             onClick={onBack}
             aria-label="Go back"
-            className="pt-10 flex flex-row w-full justify-center"
+            className="pt-10 flex flex-row w-full justify-center font-barlow  "
           >
             <BackIcon />
           </button>
-
         </motion.div>
       </AnimatePresence>
     </div>

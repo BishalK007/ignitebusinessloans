@@ -5,12 +5,12 @@
 /* @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap'); */
 @import url('https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Bebas+Neue&family=Kanit:wght@100&family=Montserrat:wght@100&family=Phudu:wght@300;400&family=Poppins&family=Raleway:ital,wght@1,900&family=Tektur&display=swap');
 
-
 :root {
-  --background: #0E1317; /* Custom Black */
-  --foreground: #EDE4D3; /* Custom White */
-  --accent-orange: #CE501E; /* Custom Orange */
-  --accent-brown: #7B3009; /* Custom Brown */
+  --background: #0E1317;
+  --background-rgba-60: rgba(14, 19, 23, 0.6);
+  --foreground: #EDE4D3;
+  --accent-orange: #CE501E;
+  --accent-brown: #7B3009;
 
   --font-barlow: 'Barlow Semi Condensed', sans-serif;
   --font-bebas: 'Bebas Neue', sans-serif;
@@ -21,99 +21,84 @@
   --font-raleway: 'Raleway', sans-serif;
   --font-tektur: 'Tektur', cursive;
 
-  --font-primary: var(--font-poppins); /* Set your default page font here */
+  --font-primary: var(--font-poppins);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-  --background: #0f1418; /* Custom Black */
-  --foreground: #efe6d5; /* Custom White */
+    --background: #0f1418;
+    --foreground: #efe6d5;
 
-  --font-barlow: 'Barlow Semi Condensed', sans-serif;
-  --font-bebas: 'Bebas Neue', sans-serif;
-  --font-kanit: 'Kanit', sans-serif;
-  --font-montserrat: 'Montserrat', sans-serif;
-  --font-phudu: 'Phudu', cursive;
-  --font-poppins: 'Poppins', sans-serif;
-  --font-raleway: 'Raleway', sans-serif;
-  --font-tektur: 'Tektur', cursive;
+    --font-barlow: 'Barlow Semi Condensed', sans-serif;
+    --font-bebas: 'Bebas Neue', sans-serif;
+    --font-kanit: 'Kanit', sans-serif;
+    --font-montserrat: 'Montserrat', sans-serif;
+    --font-phudu: 'Phudu', cursive;
+    --font-poppins: 'Poppins', sans-serif;
+    --font-raleway: 'Raleway', sans-serif;
+    --font-tektur: 'Tektur', cursive;
 
-  --font-primary: var(--font-poppins); /* Set your default page font here */
+    --font-primary: var(--font-poppins);
   }
 }
 
-html, body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: 'Barlow Semi Condensed', sans-serif; /* Apply the font globally */
-}
-
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Barlow Semi Condensed', sans-serif;
+  font-family: var(--font-barlow);
 }
 
 .PrimaryColorChangeBtn {
-  font-family: 'Barlow Semi Condensed', sans-serif;
+  font-family: var(--font-barlow);
 }
 
 .PrimaryColorChangeBtn {
-  width: 100%; /* Full width */
-  padding: 0.75rem 1.5rem; /* Equivalent to py-3 px-6 */
-  background-color: rgba(255, 126, 91, 0.233); /* Transparent background like GlossyInputField */
-  border: 1px solid rgba(209, 213, 219, 0.5); /* Border similar to GlossyInputField */
-  border-radius: 0.5rem; /* Rounded corners */
-  font-size: 1rem; /* Base font size */
-  line-height: 1.5rem; /* Adjust line height */
-  color: whitesmoke; /* Text color similar to GlossyInputField */
-  font-weight: 600; /* Font-semibold */
-  outline: none; /* Removes default outline */
-  transition: box-shadow 0.3s ease, border-color 0.3s ease, background-color 0.3s ease; /* Smooth transition */
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  background-color: color-mix(in srgb, var(--accent-orange) 70%, transparent 30%);
+  color: var(--foreground);
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  transition: all 0.3s ease-in-out;
 }
 
 .PrimaryColorChangeBtn:hover {
-  background-color: rgba(239, 112, 27, 0.2); /* Slightly darker orange on hover */
-  border-color: #f97316; /* Orange border on hover */
-  box-shadow: 0 0 8px rgba(255, 102, 0, 0.5); /* Add a glowing shadow effect */
-}
-
-.PrimaryColorChangeBtn:focus {
-  border-color: #1f2937; /* Darker border on focus */
-  box-shadow: 0 0 8px rgba(31, 41, 55, 0.5); /* Shadow effect similar to GlossyInputField */
+  background-color: color-mix(in srgb, var(--accent-orange) 50%, var(--accent-brown) 50%);
 }
 
 .GlossyInputField {
-  flex: 1; /* Takes up available space */
-  background-color: rgba(55, 65, 81, 0.1); /* Equivalent to bg-gray-700/10 */
-  border: 1px solid rgba(209, 213, 219, 0.5); /* Equivalent to border-gray-300/50 */
-  border-radius: 0.5rem; /* Rounded corners */
-  padding: 0.75rem 1rem; /* Equivalent to px-4 py-3 */
-  font-size: 1rem; /* Equivalent to text-base */
-  line-height: 1.5rem; /* Adjust line height */
-  color: #f97316; /* Equivalent to text-orange-300 */
-  outline: none; /* Removes default outline */
-  transition: box-shadow 0.3s ease, border-color 0.3s ease; /* Smooth transition */
+  flex: 1;
+  background-color: color-mix(in srgb, var(--foreground) 5%, var(--background) 95%);
+  border: 1px solid color-mix(in srgb, var(--foreground) 30%, transparent);
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  color: color-mix(in srgb, var(--accent-orange) 80%, var(--foreground) 20%);
+  outline: none;
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
 .GlossyInputField::placeholder {
-  color: #9ca3af; /* Equivalent to placeholder-gray-400 */
+  color: color-mix(in srgb, var(--foreground) 60%, var(--background) 40%);
 }
 
 .GlossyInputField:focus {
-  border-color: #1f2937; /* Equivalent to focus:border-gray-900 */
-  box-shadow: 0 0 8px rgba(31, 41, 55, 0.5); /* Equivalent to focus:shadow-md */
+  border-color: color-mix(in srgb, var(--background) 90%, var(--accent-brown) 10%);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--background) 80%, var(--accent-orange) 20%);
 }
 
 /* Override autofill styles */
 .GlossyInputField:-webkit-autofill {
-  background-color: rgba(55, 65, 81, 0.1) !important; /* Match your input background */
-  color: #f97316 !important; /* Match your text color */
-  border: 1px solid rgba(209, 213, 219, 0.5) !important; /* Match your border color */
-  -webkit-box-shadow: 0 0 0px 1000px rgba(55, 65, 81, 0.1) inset !important; /* Remove autofill background */
-  transition: background-color 5000s ease-in-out 0s; /* Prevent flashing */
+  background-color: color-mix(in srgb, var(--background) 90%, var(--foreground) 10%) !important;
+  color: var(--accent-orange) !important;
+  border: 1px solid color-mix(in srgb, var(--foreground) 50%, transparent) !important;
+  -webkit-box-shadow: 0 0 0px 1000px color-mix(in srgb, var(--background) 90%, var(--foreground) 10%) inset !important;
+  transition: background-color 5000s ease-in-out 0s;
 }
 
 .GlossyInputField:-webkit-autofill::first-line {
-  color: #f97316 !important; /* Ensure text color matches */
+  color: var(--accent-orange) !important;
 }
 
 .bg-ignite-animated {
@@ -222,7 +207,7 @@ h1, h2, h3, h4, h5, h6 {
   width: 90%;
   max-width: 500px;
   height: auto;
-  background: rgba(255, 255, 255, 0.051);
+  background: color-mix(in srgb, var(--foreground) 5%, transparent 95%);
   border-radius: 16px;
   backdrop-filter: blur(80px);
   -webkit-backdrop-filter: blur(20px);
@@ -238,7 +223,7 @@ h1, h2, h3, h4, h5, h6 {
   overflow: hidden;
   z-index: 1;
   pointer-events: auto;
-  margin: 20px auto; /* Center card and add spacing on mobile */
+  margin: 20px auto;
 }
 
 /* Glow animation */
@@ -249,7 +234,7 @@ h1, h2, h3, h4, h5, h6 {
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle, rgba(0, 0, 0, 0.482), transparent);
+  background: radial-gradient(circle, color-mix(in srgb, var(--background) 70%, transparent 30%), transparent);
   z-index: -1;
   animation: move-glow 6s infinite alternate;
 }
@@ -267,9 +252,8 @@ h1, h2, h3, h4, h5, h6 {
 /* Text styling */
 .glassmorphic-card h2,
 .glassmorphic-card p {
-  color: white;
   z-index: 2;
-  word-break: break-word; /* Ensures long words wrap on small screens */
+  word-break: break-word;
 }
 
 /* ✅ Responsive tweaks */

@@ -1,14 +1,14 @@
 "use client"
 import * as React from "react"
 const BackIcon = ({ className = "", ...props }) => (
-  <span className={`inline-block ${className}`}>
+  <span className={`inline-block ${className} hover:scale-110 transition-transform`}>
     <svg
       xmlns="http://www.w3.org/2000/svg"
       xmlSpace="preserve"
       width="60px"
       height="60px"
       viewBox="0 0 219.151 219.151"
-      className="transition-colors text-Orange hover:bg-DeepOrange rounded-full group"
+      className="transition-colors text-Orange hover:bg-Orange rounded-full group"
       {...props}
     >
       <path
