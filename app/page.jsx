@@ -2,10 +2,10 @@
 import React, { useState, useEffect } from "react";
 import QuestionCard from "@/components/form";
 import { questions } from "@/data/questions";
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 // Dynamically import Lottie with SSR disabled
-const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
-import planeLottie from "@/public/assets/loading_plane_lottie.json";
+// const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
+// import planeLottie from "@/public/assets/loading_plane_lottie.json";
 import Logo from "@/components/icons/logo";
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
@@ -63,7 +63,12 @@ function Loader({ onDone }) {
   return (
     <div className="flex flex-col items-center justify-center min-h-[340px] w-full">
       <div className="w-64 h-64 mb-6">
-        <Lottie animationData={planeLottie} loop={true} />
+        {/* <Lottie animationData={planeLottie} loop={true} /> */}
+        <DotLottieReact
+          src="https://lottie.host/bf7fd8f7-e04e-4aa0-a66c-e82776790d7f/xSwVsdZEWj.json"
+          loop
+          autoplay
+        />
       </div>
       <div className="flex flex-col items-center gap-2">
         {processingTexts.map((txt, idx) => (
@@ -133,29 +138,39 @@ export default function Home() {
       {/* Main div */}
       <div className="flex-1 flex flex-col z-10">
         {/* Navbar */}
-        <nav className="w-full py-3 px-2 flex flex-col sm:flex-row items-center sm:items-center justify-between gap-2 ">
-          <div className="flex items-center gap-1 mb-2 sm:mb-0 ">
+        <nav className="w-full py-3 px-2 flex flex-col sm:flex-row items-center sm:items-center justify-between gap-2">
+          <div className="flex items-center gap-1 mb-2 sm:mb-0">
             <IgniteLogo />
           </div>
-          <div className="w-full sm:w-auto flex-1 flex justify-end max-w-[500px]">
-            <ol className="flex flex-wrap justify-end w-full gap-x-6 gap-y-2 ">
+          {/* For larger screens, show the full navbar */}
+          <div className="hidden sm:flex w-full sm:w-auto flex-1 justify-end max-w-[500px]">
+            <ol className="flex flex-wrap justify-end w-full gap-x-6 gap-y-2">
               {NAV_STEPS.map((stepObj, idx) => (
                 <li
                   key={stepObj.label}
                   className={`flex-1 min-w-[120px] text-base md:text-lg font-semibold transition-colors text-center
-                  ${step === idx ? "text-Orange-200" : "text-gray-400"}
-                `}
+          ${step === idx ? "text-Orange-200" : "text-gray-400"}
+        `}
                 >
                   {stepObj.label}
                 </li>
               ))}
             </ol>
           </div>
+          {/* For mobile screens, show only the current step with fiery count */}
+          <div className="flex sm:hidden w-full justify-center items-center gap-2">
+            <span className="text-base md:text-lg font-semibold text-center text-Orange-200">
+              {NAV_STEPS[step]?.label}
+            </span>
+            <span className="bg-gradient-to-r from-orange-500 via-red-500 to-yellow-400 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md animate-fire-glow">
+              {step + 1}/{NAV_STEPS.length}
+            </span>
+          </div>
         </nav>
         {/* Main Content */}
         <div className="flex-1 flex items-center justify-center px-2">
           {showLoader ? (
-            <div className="text-stone-200 rounded-xl shadow-lg p-10 w-full max-w-lg flex flex-col items-center justify-center text-center">
+            <div className="bg-gray-400/20 text-stone-200 rounded-xl shadow-lg p-10 w-full max-w-lg flex flex-col items-center justify-center text-center">
               <Loader
                 onDone={() => {
                   setShowLoader(false);
