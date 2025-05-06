@@ -51,19 +51,28 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .PrimaryColorChangeBtn {
-  width: 100%;
-  padding: 0.75rem 1.5rem;
-  background-color: color-mix(in srgb, var(--accent-orange) 70%, transparent 30%);
-  color: var(--foreground);
-  border-radius: 0.5rem;
-  font-weight: 600;
-  font-size: 1rem;
-  line-height: 1.5rem;
-  transition: all 0.3s ease-in-out;
+  width: 100%; /* Full width */
+  padding: 0.75rem 1.5rem; /* Equivalent to py-3 px-6 */
+  background-color: rgba(255, 163, 43, 0.1); /* Transparent background like GlossyInputField */
+  border: 1px solid rgba(209, 213, 219, 0.5); /* Border similar to GlossyInputField */
+  border-radius: 0.5rem; /* Rounded corners */
+  font-size: 1rem; /* Base font size */
+  line-height: 1.5rem; /* Adjust line height */
+  color: whitesmoke; /* Text color similar to GlossyInputField */
+  font-weight: 600; /* Font-semibold */
+  outline: none; /* Removes default outline */
+  transition: box-shadow 0.3s ease, border-color 0.3s ease, background-color 0.3s ease; /* Smooth transition */
 }
 
 .PrimaryColorChangeBtn:hover {
-  background-color: color-mix(in srgb, var(--accent-orange) 50%, var(--accent-brown) 50%);
+  background-color: rgba(255, 102, 0, 0.2); /* Slightly darker orange on hover */
+  border-color: #f97316; /* Orange border on hover */
+  box-shadow: 0 0 8px rgba(255, 102, 0, 0.5); /* Add a glowing shadow effect */
+}
+
+.PrimaryColorChangeBtn:focus {
+  border-color: #1f2937; /* Darker border on focus */
+  box-shadow: 0 0 8px rgba(31, 41, 55, 0.5); /* Shadow effect similar to GlossyInputField */
 }
 
 .GlossyInputField {

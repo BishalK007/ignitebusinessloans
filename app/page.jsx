@@ -158,14 +158,16 @@ export default function Home() {
             </ol>
           </div>
           {/* For mobile screens, show only the current step with fiery count */}
-          <div className="flex sm:hidden w-full justify-center items-center gap-2">
-            <span className="text-base md:text-lg font-semibold text-center text-Orange-200">
-              {NAV_STEPS[step]?.label}
-            </span>
-            <span className="bg-gradient-to-r from-orange-500 via-red-500 to-yellow-400 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md animate-fire-glow">
-              {step + 1}/{NAV_STEPS.length}
-            </span>
-          </div>
+          {!showThankYou && (
+            <div className="flex sm:hidden w-full justify-center items-center gap-2">
+              <span className="text-base md:text-lg font-semibold text-center text-Orange-200">
+                {NAV_STEPS[step]?.label}
+              </span>
+              <span className="bg-gradient-to-r from-orange-500 via-red-500 to-yellow-400 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md animate-fire-glow">
+                {step + 1}/{NAV_STEPS.length}
+              </span>
+            </div>
+          )}
         </nav>
         {/* Main Content */}
         <div className="flex-1 flex items-center justify-center px-2">
