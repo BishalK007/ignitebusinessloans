@@ -2,10 +2,6 @@
 import React, { useState, useEffect } from "react";
 import QuestionCard from "@/components/form";
 import { questions } from "@/data/questions";
-// import dynamic from "next/dynamic";
-// Dynamically import Lottie with SSR disabled
-// const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
-// import planeLottie from "@/public/assets/loading_plane_lottie.json";
 import Logo from "@/components/icons/logo";
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
@@ -14,11 +10,11 @@ const NAV_STEPS = [
   { label: "BASIC INFO", range: [0, 4] },
   { label: "YOUR BUSINESS", range: [5, 8] },
   { label: "YOUR INFO", range: [9, 12] },
-  { label: "OFFERS AND FINAL DETAILS", range: [13, 13] }, // Only after submit/loading
+  { label: "OFFERS AND FINAL DETAILS", range: [13] },
 ];
 
-function getStep(current, showLoader) {
-  if (showLoader) return 3; // highlight "Offers and final details"
+function getStep(current, showLoader, showThankYou) {
+  if (showLoader || showThankYou) return 3;
   for (let i = 0; i < NAV_STEPS.length; i++) {
     const [start, end] = NAV_STEPS[i].range;
     if (current >= start && current <= end) return i;
@@ -61,8 +57,8 @@ function Loader({ onDone }) {
   }, [step, processingTexts.length, onDone]);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[340px] w-full">
-      <div className="w-64 h-64 mb-6">
+    <div className="glassmorphic-card">
+      <div className="w-44 h-44 mb-6">
         {/* <Lottie animationData={planeLottie} loop={true} /> */}
         <DotLottieReact
           src="https://lottie.host/bf7fd8f7-e04e-4aa0-a66c-e82776790d7f/xSwVsdZEWj.json"
@@ -75,8 +71,8 @@ function Loader({ onDone }) {
           <span
             key={idx}
             className={`text-base md:text-lg font-medium transition-opacity duration-500 ${idx === step
-              ? "opacity-100 text-stone-200"
-              : "opacity-60 text-stone-200"
+              ? "opacity-100 text-orange-700"
+              : "opacity-60 text-yellow-500"
               }`}
           >
             {txt}
@@ -93,7 +89,7 @@ export default function Home() {
   const [showLoader, setShowLoader] = useState(false);
   const [showThankYou, setShowThankYou] = useState(false);
   const [fieldError, setFieldError] = useState("");
-  const step = getStep(current, showLoader);
+  const step = getStep(current, showLoader, showThankYou);
 
   const handleSelect = (option, errorMsg) => {
     if (errorMsg) {
@@ -158,28 +154,40 @@ export default function Home() {
             </ol>
           </div>
           {/* For mobile screens, show only the current step with fiery count */}
-          {!showThankYou && (
-            <div className="flex sm:hidden w-full justify-center items-center gap-2">
-              <span className="text-base md:text-lg font-semibold text-center text-Orange-200">
-                {NAV_STEPS[step]?.label}
-              </span>
-              <span className="bg-gradient-to-r from-orange-500 via-red-500 to-yellow-400 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md animate-fire-glow">
-                {step + 1}/{NAV_STEPS.length}
-              </span>
-            </div>
-          )}
+          {/* For mobile screens, show the current step or thank-you message */}
+          <div className="flex sm:hidden w-full justify-center items-center gap-2">
+            {showThankYou ? (
+              <>
+                <span className="text-base md:text-lg font-semibold text-center text-Orange-200">
+                  {NAV_STEPS[3]?.label} {/* Always show the last step label */}
+                </span>
+                <span className="bg-gradient-to-r from-orange-500/70 via-red-500/70 to-yellow-400/70 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md animate-fire-glow">
+                  {step + 1}/{NAV_STEPS.length}
+                </span>
+              </>
+            ) : (
+              <>
+                <span className="text-base md:text-lg font-semibold text-center text-Orange-200">
+                  {NAV_STEPS[step]?.label}
+                </span>
+                <span className="bg-gradient-to-r from-orange-500/70 via-red-500/70 to-yellow-400/70 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md animate-fire-glow">
+                  {step + 1}/{NAV_STEPS.length}
+                </span>
+              </>
+            )}
+          </div>
         </nav>
         {/* Main Content */}
         <div className="flex-1 flex items-center justify-center px-2">
           {showLoader ? (
-            <div className="bg-gray-400/20 text-stone-200 rounded-xl shadow-lg p-10 w-full max-w-lg flex flex-col items-center justify-center text-center">
-              <Loader
-                onDone={() => {
-                  setShowLoader(false);
-                  setShowThankYou(true);
-                }}
-              />
-            </div>
+
+            <Loader
+              onDone={() => {
+                setShowLoader(false);
+                setShowThankYou(true);
+              }}
+            />
+
           ) : showThankYou ? (
             <div className="glassmorphic-card rounded-xl shadow-lg p-10 w-full max-w-lg flex flex-col items-center justify-center text-center">
               <DotLottieReact
@@ -188,10 +196,10 @@ export default function Home() {
                 autoplay
                 className="w-32 h-32 mb-4"
               />
-              <h2 className="text-2xl font-bold text-stone-300 mb-2 ">
+              <h2 className="text-2xl font-bold text-yellow-600/80 mb-2 ">
                 Your responses have been recorded
               </h2>
-              <p className="text-stone-300">We will get back to you soon.</p>
+              <p className="text-yellow-500/60">We will get back to you soon.</p>
             </div>
           ) : (
             <QuestionCard
