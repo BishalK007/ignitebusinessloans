@@ -281,7 +281,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Fiery Glow Animation */
-@keyframes fireGlow {
+/* @keyframes fireGlow {
   0% {
     box-shadow: 0 0 8px rgba(255, 102, 0, 0.5), 0 0 16px rgba(255, 69, 0, 0.4);
     transform: scale(1);
@@ -298,6 +298,16 @@ h1, h2, h3, h4, h5, h6 {
 
 .animate-fire-glow {
   animation: fireGlow 1.5s infinite ease-in-out;
+} */
+
+/* Glassmorphic badge for fiery glow */
+.glassmorphic-badge {
+  background: color-mix(in srgb, var(--foreground) 10%, transparent 90%);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid color-mix(in srgb, var(--foreground) 18%, transparent);
+  box-shadow: 0 0 8px 1px color-mix(in srgb, var(--foreground) 20%, transparent);
+  /* Keep rounded, padding, etc. from Tailwind or override as needed */
 }
 
 /* Hide the spinner controls */

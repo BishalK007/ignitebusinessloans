@@ -31,7 +31,7 @@ function IgniteLogo() {
 }
 
 // Stylized animated loader with Lottie and processing texts
-function Loader({ onDone }) {
+function Loader({ status, onDone, onError }) {
   const processingTexts = [
     "Analyzing your business profile...",
     "Matching you with the best funding options...",
@@ -41,43 +41,60 @@ function Loader({ onDone }) {
   const [step, setStep] = useState(0);
 
   useEffect(() => {
-    // Change text every 2s, after 8s call onDone
-    if (step < processingTexts.length - 1) {
-      const interval = setInterval(() => {
-        setStep((prev) => prev + 1);
-      }, 2000);
-      return () => clearInterval(interval);
-    } else {
-      // After last step, wait 1s then call onDone
+    if (status === "loading") {
+      if (step < processingTexts.length - 1) {
+        const interval = setInterval(() => {
+          setStep((prev) => prev + 1);
+        }, 3000);
+        return () => clearInterval(interval);
+      } else {
+        const timeout = setTimeout(() => {
+          if (onDone) onDone();
+        }, 3000);
+        return () => clearTimeout(timeout);
+      }
+    }
+    if (status === "error") {
       const timeout = setTimeout(() => {
-        if (onDone) onDone();
+        if (onError) onError();
       }, 2000);
       return () => clearTimeout(timeout);
     }
-  }, [step, processingTexts.length, onDone]);
+    // For "success", let parent handle hiding after 1.5s
+  }, [step, status, onDone, onError, processingTexts.length]);
 
   return (
     <div className="glassmorphic-card">
       <div className="w-44 h-44 mb-6">
-        {/* <Lottie animationData={planeLottie} loop={true} /> */}
-        <DotLottieReact
-          src="https://lottie.host/bf7fd8f7-e04e-4aa0-a66c-e82776790d7f/xSwVsdZEWj.json"
-          loop
-          autoplay
-        />
+        {status === "loading" && (
+          <DotLottieReact src="/assets/Animation PaperPlane- 1747072307703.json" loop autoplay />
+        )}
+        {status === "success" && (
+          <DotLottieReact src="/assets/Animation - 1747050616841.json" autoplay />
+        )}
+        {status === "error" && (
+          <DotLottieReact src="/assets/your-error-animation.json" autoplay />
+        )}
       </div>
       <div className="flex flex-col items-center gap-2">
-        {processingTexts.map((txt, idx) => (
-          <span
-            key={idx}
-            className={`text-base md:text-lg font-medium transition-opacity duration-500 ${idx === step
-              ? "opacity-100 text-orange-700"
-              : "opacity-60 text-yellow-500"
-              }`}
-          >
-            {txt}
-          </span>
-        ))}
+        {status === "loading" &&
+          processingTexts.map((txt, idx) => (
+            <span
+              key={idx}
+              className={`text-base md:text-lg font-medium transition-opacity duration-500 ${idx === step
+                ? "opacity-100 text-orange-700"
+                : "opacity-60 text-yellow-500"
+                }`}
+            >
+              {txt}
+            </span>
+          ))}
+        {status === "success" && (
+          <span className="text-lg font-semibold text-orange-700/70">Application Submitted!</span>
+        )}
+        {status === "error" && (
+          <span className="text-lg font-semibold text-red-600">Something went wrong. Please try again.</span>
+        )}
       </div>
     </div>
   );
@@ -87,6 +104,7 @@ export default function Home() {
   const [current, setCurrent] = useState(0);
   const [answers, setAnswers] = useState({});
   const [showLoader, setShowLoader] = useState(false);
+  const [loaderStatus, setLoaderStatus] = useState("loading");
   const [showThankYou, setShowThankYou] = useState(false);
   const [fieldError, setFieldError] = useState("");
   const step = getStep(current, showLoader, showThankYou);
@@ -161,7 +179,7 @@ export default function Home() {
                 <span className="text-base md:text-lg font-semibold text-center text-Orange-200">
                   {NAV_STEPS[3]?.label} {/* Always show the last step label */}
                 </span>
-                <span className="bg-gradient-to-r from-orange-500/70 via-red-500/70 to-yellow-400/70 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md animate-fire-glow">
+                <span className="bg-gradient-to-r from-orange-500/70 via-red-500/70 to-yellow-400/70 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md glassmorphic-badge">
                   {step + 1}/{NAV_STEPS.length}
                 </span>
               </>
@@ -170,7 +188,7 @@ export default function Home() {
                 <span className="text-base md:text-lg font-semibold text-center text-Orange-200">
                   {NAV_STEPS[step]?.label}
                 </span>
-                <span className="bg-gradient-to-r from-orange-500/70 via-red-500/70 to-yellow-400/70 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md animate-fire-glow">
+                <span className="bg-gradient-to-r from-orange-500/70 via-red-500/70 to-yellow-400/70 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md glassmorphic-badge">
                   {step + 1}/{NAV_STEPS.length}
                 </span>
               </>
@@ -180,11 +198,18 @@ export default function Home() {
         {/* Main Content */}
         <div className="flex-1 flex items-center justify-center px-2">
           {showLoader ? (
-
             <Loader
+              status={loaderStatus}
               onDone={() => {
-                setShowLoader(false);
-                setShowThankYou(true);
+                setLoaderStatus("success");
+                setTimeout(() => {
+                  setShowLoader(false);
+                  setShowThankYou(true);
+                }, 2000); // show success animation for 2s
+              }}
+              onError={() => {
+                setLoaderStatus("error");
+                setTimeout(() => setShowLoader(false), 2000); // show error animation for 2s
               }}
             />
 
@@ -196,10 +221,10 @@ export default function Home() {
                 autoplay
                 className="w-32 h-32 mb-4"
               />
-              <h2 className="text-2xl font-bold text-yellow-600/80 mb-2 ">
+              <h2 className="text-2xl font-bold text-orange-700/80 mb-2 ">
                 Your responses have been recorded
               </h2>
-              <p className="text-yellow-500/60">We will get back to you soon.</p>
+              <p className="text-orange-700/70">We will get back to you soon.</p>
             </div>
           ) : (
             <QuestionCard
