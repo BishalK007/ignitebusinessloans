@@ -63,16 +63,16 @@ function Loader({ status, onDone, onError }) {
   }, [step, status, onDone, onError, processingTexts.length]);
 
   return (
-    <div className="glassmorphic-card">
+    <div className="glassmorphic-card flex flex-col items-center justify-center">
       <div className="w-44 h-44 mb-6">
         {status === "loading" && (
-          <DotLottieReact src="/assets/Animation PaperPlane- 1747072307703.json" loop autoplay />
+          <DotLottieReact src="/assets/Animation Fire - 1747154128191.lottie" loop autoplay className="pb-0 mb-0 sm:w-40 sm:h-40" />
         )}
         {status === "success" && (
-          <DotLottieReact src="/assets/Animation - 1747050616841.json" autoplay />
+          <DotLottieReact src="/assets/Animation success - 1747050616841.lottie" autoplay />
         )}
         {status === "error" && (
-          <DotLottieReact src="/assets/your-error-animation.json" autoplay />
+          <DotLottieReact src="/assets/Animation Error - 1747050687410.lottie" autoplay />
         )}
       </div>
       <div className="flex flex-col items-center gap-2">
@@ -108,7 +108,7 @@ export default function Home() {
   const [fieldError, setFieldError] = useState("");
   const [submitError, setSubmitError] = useState("");
   const submittedRef = useRef(false);
-  const step = getStep(current, showLoader);
+  const step = getStep(current, showLoader, showThankYou);
 
   // Map answers to required API keys
   function mapAnswersToApi(answers) {
@@ -187,10 +187,12 @@ export default function Home() {
     const elapsed = Date.now() - start;
     if (elapsed < MIN_LOADER_TIME) {
       setTimeout(() => {
+        // setLoaderStatus("success"); //TODO: not working
         setShowLoader(false);
         setShowThankYou(true);
       }, MIN_LOADER_TIME - elapsed);
     } else {
+      // setLoaderStatus("success"); //TODO: not working
       setShowLoader(false);
       setShowThankYou(true);
     }
@@ -259,7 +261,6 @@ export default function Home() {
             </ol>
           </div>
           {/* For mobile screens, show only the current step with fiery count */}
-          {/* For mobile screens, show the current step or thank-you message */}
           <div className="flex sm:hidden w-full justify-center items-center gap-2">
             {showThankYou ? (
               <>
@@ -285,31 +286,35 @@ export default function Home() {
         {/* Main Content */}
         <div className="flex-1 flex items-center justify-center px-2">
           {showLoader ? (
-            <div className="bg-gray-400/20 text-stone-200 rounded-xl shadow-lg p-10 w-full max-w-lg flex flex-col items-center justify-center text-center">
-              <Loader onDone={handleLoaderDone} />
-            </div>
+            <Loader
+              status={loaderStatus}
+              onDone={() => {
+                setLoaderStatus("success");
+                setTimeout(() => {
+                  setShowLoader(false);
+                  setShowThankYou(true);
+                }, 2500); 
+              }}
+              // onDone={handleLoaderDone} //TODO: Everything is handled by this just need to fix setLoaderStatus("success") 
+              onError={() => {
+                setLoaderStatus("error");
+                setTimeout(() => setShowLoader(false), 2500); // show error animation for 2.5s
+              }}
+            />
+            
+
           ) : showThankYou ? (
             <div className="glassmorphic-card rounded-xl shadow-lg p-10 w-full max-w-lg flex flex-col items-center justify-center text-center">
               <DotLottieReact
-                src="https://lottie.host/e8c90258-9d4b-431c-8c92-3a5265537042/NvFzQRXoPm.lottie"
+                src="/assets/Animation notebook - 1746292444951.lottie"
                 loop
                 autoplay
                 className="w-32 h-32 mb-4"
               />
-              <h2
-                className={`text-2xl font-bold mb-2 ${
-                  submitError ? "text-red-400" : "text-stone-300"
-                }`}
-              >
-                {submitError
-                  ? "Something went wrong sending the response"
-                  : "Your responses have been recorded"}
+              <h2 className="text-2xl font-bold text-orange-700/80 mb-2 ">
+                Your responses have been recorded
               </h2>
-              <p className="text-stone-300">
-                {submitError
-                  ? "Please try again later."
-                  : "We will get back to you soon."}
-              </p>
+              <p className="text-orange-700/70">We will get back to you soon.</p>
             </div>
           ) : (
             <QuestionCard

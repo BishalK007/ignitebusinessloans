@@ -282,7 +282,7 @@ export default function QuestionCard({
         type="text"
         inputMode="numeric"
         placeholder="$500,000"
-        className="pl-8 GlossyInputField font-barlow"
+        className="GlossyInputField font-barlow"
         required
         min={1}
         step="any"

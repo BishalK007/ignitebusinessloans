@@ -21,27 +21,27 @@ export async function POST(request) {
 
         console.log('Received data:', body);
 
-        // const response = await fetch(webhookUrl, {
-        //     method: 'POST',
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify({
-        //         in_business,
-        //         business_type,
-        //         loan_amount,
-        //         fund_reason,
-        //         annual_revenue,
-        //         credit_score,
-        //         industry,
-        //         zipcode,
-        //         business_name,
-        //         first_name,
-        //         last_name,
-        //         phone,
-        //         email
-        //     })
-        // });
+        const response = await fetch(webhookUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                in_business,
+                business_type,
+                loan_amount,
+                fund_reason,
+                annual_revenue,
+                credit_score,
+                industry,
+                zipcode,
+                business_name,
+                first_name,
+                last_name,
+                phone,
+                email
+            })
+        });
 
-        // console.log('Webhook response:', response);
+        console.log('Webhook response:', response);
         if (!response.ok) {
             return new Response(JSON.stringify({ error: `Webhook request failed: ${response.statusText}` }), {
                 status: 500,
