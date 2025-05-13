@@ -299,3 +299,11 @@ h1, h2, h3, h4, h5, h6 {
 .animate-fire-glow {
   animation: fireGlow 1.5s infinite ease-in-out;
 }
+
+/* Hide the spinner controls */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0; 
+}

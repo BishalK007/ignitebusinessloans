@@ -79,7 +79,7 @@ export default function QuestionCard({
   };
 
   return (
-    <div className=" min-h-screen flex items-center justify-center p-4 sm:p-10 font-barlow">
+    <div className="flex items-center justify-center p-4 sm:p-4 font-barlow">
       <AnimatePresence mode="wait">
         <motion.div
           key={question.id}
@@ -102,7 +102,7 @@ export default function QuestionCard({
             <div
               className={
                 question.id === "needFunding"
-                  ? "grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 font-barlow  "
+                  ? "grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 font-barlow w-full "
                   : "space-y-3 sm:space-y-4 font-barlow  "
               }
             >
@@ -118,7 +118,7 @@ export default function QuestionCard({
                       whileTap={{ scale: 0.98 }}
                       transition={{ type: "spring", stiffness: 500, damping: 30 }}
                       onClick={() => onSelect(option)}
-                      className={`w-full py-3 sm:py-4 px-4 sm:px-6 border rounded-lg text-base sm:text-lg transition-all font-barlow  
+                      className={`w-full sm:w-full py-3 sm:py-4 px-4 sm:px-6 border rounded-lg text-base sm:text-lg transition-all font-barlow  
                           ${selected === option
                           ? "border-gray-100 bg-gray-100/5 text-Yellow-500 font-semibold"
                           : "border-gray-300   hover:text-white hover:border-Orange-100 hover:bg-orange-400/10"
@@ -137,7 +137,7 @@ export default function QuestionCard({
                     whileTap={{ scale: 0.98 }}
                     transition={{ type: "spring", stiffness: 500, damping: 30 }}
                     onClick={() => onSelect(option)}
-                    className={`w-full py-3 sm:py-4 px-4 sm:px-6 border rounded-lg text-base sm:text-lg transition-all font-barlow  
+                    className={`w-full sm:w-full py-3 sm:py-4 px-4 sm:px-6 border rounded-lg text-base sm:text-lg transition-all font-barlow  
                         ${selected === option
                         ? "border-gray-100 bg-gray-100/5 text-Yellow-500 font-semibold"
                         : "border-gray-300   hover:text-white hover:border-Orange-100 hover:bg-orange-400/10"
@@ -283,45 +283,50 @@ export default function QuestionCard({
               )}
             </form>
           ) : question.id === "annualRevenue" ? (
-            <form
-              className="mt-5 flex flex-col items-center font-barlow  "
-              onSubmit={(e) => {
-                e.preventDefault();
-                const val = e.target.elements.input.value.replace(/,/g, "");
-                if (!val || isNaN(val) || Number(val) <= 0) {
-                  setFieldError("Please enter a valid annual revenue.");
-                  return;
-                }
-                setFieldError("");
-                onSelect(val);
-              }}
-            >
-              <div className="relative w-full mb-2 font-barlow  ">
-                <input
-                  name="input"
-                  type="number"
-                  inputMode="numeric"
-                  placeholder="$500,000"
-                  className="pl-8 GlossyInputField font-barlow  "
-                  required
-                  min={1}
-                  step="any"
-                />
-              </div>
-              {fieldError && (
-                <div className="w-full text-left text-red-500 text-sm mb-2 font-barlow  ">
-                  {fieldError}
-                </div>
-              )}
-              {question.nextButton && (
-                <button
-                  type="submit"
-                  className="PrimaryColorChangeBtn font-barlow  "
-                >
-                  Next
-                </button>
-              )}
-            </form>
+  <form
+    className="mt-5 flex flex-col items-center font-barlow"
+    onSubmit={(e) => {
+      e.preventDefault();
+      const val = e.target.elements.input.value.replace(/[^0-9.]/g, ""); // Remove non-numeric characters
+      if (!val || isNaN(val) || Number(val) <= 0) {
+        setFieldError("Please enter a valid annual revenue.");
+        return;
+      }
+      setFieldError("");
+      onSelect(val);
+    }}
+  >
+    <div className="relative w-full mb-2 font-barlow">
+      <input
+        name="input"
+        type="text"
+        inputMode="numeric"
+        placeholder="$500,000"
+        className="pl-8 GlossyInputField font-barlow"
+        required
+        min={1}
+        step="any"
+        onInput={(e) => {
+          // Ensure the value starts with a "$" and remove invalid characters
+          const inputValue = e.target.value.replace(/[^0-9.]/g, ""); // Keep only numbers and dots
+          e.target.value = `$${inputValue}`;
+        }}
+      />
+    </div>
+    {fieldError && (
+      <div className="w-full text-left text-red-500 text-sm mb-2 font-barlow">
+        {fieldError}
+      </div>
+    )}
+    {question.nextButton && (
+      <button
+        type="submit"
+        className="PrimaryColorChangeBtn font-barlow"
+      >
+        Next
+      </button>
+    )}
+  </form>
           ) : question.inputType ? (
             <form
               className="mt-5 flex flex-col items-center font-barlow  "
