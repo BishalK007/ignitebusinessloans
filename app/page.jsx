@@ -1,10 +1,9 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import QuestionCard from "@/components/form";
 import { questions } from "@/data/questions";
 import Logo from "@/components/icons/logo";
-import { DotLottieReact } from '@lottiefiles/dotlottie-react';
-
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 const NAV_STEPS = [
   { label: "BASIC INFO", range: [0, 4] },
@@ -39,7 +38,7 @@ function Loader({ status, onDone, onError }) {
     "Submitting your application...",
   ];
   const [step, setStep] = useState(0);
-
+  // console.log("Check remount");
   useEffect(() => {
     if (status === "loading") {
       if (step < processingTexts.length - 1) {
@@ -107,7 +106,95 @@ export default function Home() {
   const [loaderStatus, setLoaderStatus] = useState("loading");
   const [showThankYou, setShowThankYou] = useState(false);
   const [fieldError, setFieldError] = useState("");
-  const step = getStep(current, showLoader, showThankYou);
+  const [submitError, setSubmitError] = useState("");
+  const submittedRef = useRef(false);
+  const step = getStep(current, showLoader);
+
+  // Map answers to required API keys
+  function mapAnswersToApi(answers) {
+    const creditScore = (() => {
+      switch (answers.creditScore) {
+      case questions[5].options[0]:
+        return 750;
+      case questions[5].options[1]:
+        return 690;
+      case questions[5].options[2]:
+        return 630;
+      case questions[5].options[3]:
+        return 580;
+      default:
+        return 0;
+      }
+    })();
+
+    const loanAmount = (() => {
+      if (!answers.needFunding) return 0;
+      const str = answers.needFunding.replace(/[\$,]/g, "").trim();
+      if (/^\d+$/.test(str)) return parseInt(str, 10);
+      const match = str.match(/(\d[\d,]*)/g);
+      if (match && match.length > 0) {
+        // Use the higher value if it's a range, else the first number
+        return parseInt(match[match.length - 1].replace(/,/g, ""), 10);
+      }
+      return 0;
+    })();
+    return {
+      in_business: answers.startTime,
+      business_type: answers.businessType,
+      loan_amount: loanAmount,
+      fund_reason: answers.fundUsage,
+      annual_revenue: answers.annualRevenue,
+      credit_score: creditScore,
+      industry: answers.industryName,
+      zipcode: answers.ZipCode,
+      business_name: answers.BusinessName,
+      first_name: answers.fullName?.firstName || "",
+      last_name: answers.fullName?.lastName || "",
+      phone: answers.phoneNumber,
+      email: answers.email,
+    };
+  }
+  const submitAnswers = async () => {
+    // Prevent multiple submissions using the ref
+    if (submittedRef.current) {
+      console.log("Submission already in progress, skipping duplicate call");
+      return true;
+    }
+    
+    submittedRef.current = true;
+
+    try {
+      // console.log("Submitting answers:", answers);
+      const apiData = mapAnswersToApi(answers);
+      // console.log("Mapped API data:", apiData);
+      const res = await fetch("/api/send_response", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(apiData),
+      });
+      if (!res.ok) throw new Error("Failed to send response");
+      return true;
+    } catch (err) {
+      setSubmitError("Something went wrong sending the response");
+      return false;
+    }
+  };
+
+  const handleLoaderDone = async () => {
+    const MIN_LOADER_TIME = 3000;
+    const start = Date.now();
+    await submitAnswers();
+    const elapsed = Date.now() - start;
+    if (elapsed < MIN_LOADER_TIME) {
+      setTimeout(() => {
+        setShowLoader(false);
+        setShowThankYou(true);
+      }, MIN_LOADER_TIME - elapsed);
+    } else {
+      setShowLoader(false);
+      setShowThankYou(true);
+    }
+  };
 
   const handleSelect = (option, errorMsg) => {
     if (errorMsg) {
@@ -198,21 +285,9 @@ export default function Home() {
         {/* Main Content */}
         <div className="flex-1 flex items-center justify-center px-2">
           {showLoader ? (
-            <Loader
-              status={loaderStatus}
-              onDone={() => {
-                setLoaderStatus("success");
-                setTimeout(() => {
-                  setShowLoader(false);
-                  setShowThankYou(true);
-                }, 2000); // show success animation for 2s
-              }}
-              onError={() => {
-                setLoaderStatus("error");
-                setTimeout(() => setShowLoader(false), 2000); // show error animation for 2s
-              }}
-            />
-
+            <div className="bg-gray-400/20 text-stone-200 rounded-xl shadow-lg p-10 w-full max-w-lg flex flex-col items-center justify-center text-center">
+              <Loader onDone={handleLoaderDone} />
+            </div>
           ) : showThankYou ? (
             <div className="glassmorphic-card rounded-xl shadow-lg p-10 w-full max-w-lg flex flex-col items-center justify-center text-center">
               <DotLottieReact
@@ -221,10 +296,20 @@ export default function Home() {
                 autoplay
                 className="w-32 h-32 mb-4"
               />
-              <h2 className="text-2xl font-bold text-orange-700/80 mb-2 ">
-                Your responses have been recorded
+              <h2
+                className={`text-2xl font-bold mb-2 ${
+                  submitError ? "text-red-400" : "text-stone-300"
+                }`}
+              >
+                {submitError
+                  ? "Something went wrong sending the response"
+                  : "Your responses have been recorded"}
               </h2>
-              <p className="text-orange-700/70">We will get back to you soon.</p>
+              <p className="text-stone-300">
+                {submitError
+                  ? "Please try again later."
+                  : "We will get back to you soon."}
+              </p>
             </div>
           ) : (
             <QuestionCard

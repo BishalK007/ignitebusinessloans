@@ -16,11 +16,12 @@ export const questions = [
     id: "businessType",
     title: "What type of business do you own?",
     options: [
-      "C Corporation",
+      "Corporation",
+      "LLC",
+      "LLP",
+      "Ltd. Partnership",
       "Partnership",
-      "Limited Liability Company | LLC",
-      "S Corporation",
-      "Sole Proprietorship",
+      "Sole Proprietor",
     ],
   },
   {
