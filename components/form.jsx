@@ -28,9 +28,9 @@ async function fetchZipLocation(zip) {
     if (place) {
       return `${place["place name"]}, ${place["state abbreviation"]}`;
     }
-    return null;
+    return "";
   } catch {
-    return null;
+    return "";
   }
 }
 
@@ -44,29 +44,17 @@ export default function QuestionCard({
 }) {
   // For ZipCode field
   const [zipInput, setZipInput] = useState("");
-  const [zipLocation, setZipLocation] = useState("");
-  const [zipError, setZipError] = useState("");
   // For phone number
   const [phoneInput, setPhoneInput] = useState("");
 
-  // Handle zip code input change and lookup
-  const handleZipChange = async (e) => {
+  // Handle zip code input change and validation
+  const handleZipChange = (e) => {
     const val = e.target.value.replace(/\D/g, "").slice(0, 5);
     setZipInput(val);
-    setZipLocation("");
-    setZipError("");
-    if (val.length === 5 && isValidUSZip(val)) {
-      setZipLocation("Looking up location...");
-      const loc = await fetchZipLocation(val);
-      if (loc) {
-        setZipLocation(loc);
-      } else {
-        setZipLocation("");
-        setZipError("Zip code not found");
-      }
-    } else if (val.length === 5) {
-      setZipLocation("");
-      setZipError("Invalid US zip code");
+    if (val.length === 5 && !isValidUSZip(val)) {
+      setFieldError("Invalid US zip code");
+    } else {
+      setFieldError("");
     }
   };
 
@@ -199,7 +187,7 @@ export default function QuestionCard({
               className="mt-5 flex flex-col items-center font-barlow  "
               onSubmit={(e) => {
                 e.preventDefault();
-                if (!isValidUSZip(zipInput) || !zipLocation) {
+                if (!isValidUSZip(zipInput)) {
                   setFieldError("Please enter a valid US zip code.");
                   return;
                 }
@@ -219,14 +207,6 @@ export default function QuestionCard({
                 onChange={handleZipChange}
                 maxLength={5}
               />
-              <div className="w-full min-h-[1.5em] text-sm text-left px-1 font-barlow  ">
-                {zipInput.length === 5 &&
-                  (zipLocation ? (
-                    <span className="text-stone-200 font-barlow">{zipLocation}</span>
-                  ) : zipError ? (
-                    <span className="text-red-500 font-barlow">{zipError}</span>
-                  ) : null)}
-              </div>
               {fieldError && (
                 <div className="w-full text-left text-red-500 text-sm mb-2 font-barlow  ">
                   {fieldError}
@@ -236,7 +216,7 @@ export default function QuestionCard({
                 <button
                   type="submit"
                   className="PrimaryColorChangeBtn mt-2 font-barlow  "
-                  disabled={!isValidUSZip(zipInput) || !zipLocation}
+                  disabled={!isValidUSZip(zipInput)}
                 >
                   Next
                 </button>
