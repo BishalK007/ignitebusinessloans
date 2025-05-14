@@ -23,76 +23,56 @@ function getStep(current, showLoader, showThankYou) {
 
 function IgniteLogo() {
   return (
-    <span className="inline-flex items-center justify-center w-36 h-36 rounded-full text-white font-extrabold  text-3xl select-none pl-2">
+    <span className="inline-flex items-center justify-center w-36 h-36 rounded-full text-white font-extrabold text-3xl select-none pl-2">
       <Logo />
     </span>
   );
 }
 
-// Stylized animated loader with Lottie and processing texts
-function Loader({ status, onDone, onError }) {
+function Loader({ processingStep, totalSteps, status }) {
   const processingTexts = [
     "Analyzing your business profile...",
     "Matching you with the best funding options...",
     "Finalizing your application...",
     "Submitting your application...",
   ];
-  const [step, setStep] = useState(0);
-  // console.log("Check remount");
-  useEffect(() => {
-    if (status === "loading") {
-      if (step < processingTexts.length - 1) {
-        const interval = setInterval(() => {
-          setStep((prev) => prev + 1);
-        }, 3000);
-        return () => clearInterval(interval);
-      } else {
-        const timeout = setTimeout(() => {
-          if (onDone) onDone();
-        }, 3000);
-        return () => clearTimeout(timeout);
-      }
-    }
-    if (status === "error") {
-      const timeout = setTimeout(() => {
-        if (onError) onError();
-      }, 2000);
-      return () => clearTimeout(timeout);
-    }
-    // For "success", let parent handle hiding after 1.5s
-  }, [step, status, onDone, onError, processingTexts.length]);
 
   return (
     <div className="glassmorphic-card flex flex-col items-center justify-center">
       <div className="w-44 h-44 mb-6">
-        {status === "loading" && (
-          <DotLottieReact src="/assets/Animation Fire - 1747154128191.lottie" loop autoplay className="pb-0 mb-0 sm:w-40 sm:h-40" />
+        {status === "processing" && (
+          <DotLottieReact src="/assets/Animation Fire - 1747154128191.lottie" loop autoplay />
         )}
         {status === "success" && (
           <DotLottieReact src="/assets/Animation success - 1747050616841.lottie" autoplay />
         )}
         {status === "error" && (
-          <DotLottieReact src="/assets/Animation Error - 1747050687410.lottie" autoplay />
+          <DotLottieReact src="/assets/Animation Error - 1747050687410.lottie" loop autoplay />
         )}
       </div>
       <div className="flex flex-col items-center gap-2">
-        {status === "loading" &&
+        {status === "processing" &&
           processingTexts.map((txt, idx) => (
             <span
               key={idx}
-              className={`text-base md:text-lg font-medium transition-opacity duration-500 ${idx === step
-                ? "opacity-100 text-red-300/80"
-                : "opacity-60 text-red-300/50"
-                }`}
+              className={`text-base md:text-lg font-medium transition-opacity duration-500 ${
+                idx === processingStep
+                  ? "opacity-100 text-Orange-200"
+                  : "opacity-60 text-gray-400"
+              }`}
             >
               {txt}
             </span>
           ))}
         {status === "success" && (
-          <span className="text-lg font-semibold text-orange-700/70">Application Submitted!</span>
+          <span className="text-lg font-semibold text-Orange-200">
+            Application Submitted!
+          </span>
         )}
         {status === "error" && (
-          <span className="text-lg font-semibold text-red-600">Something went wrong. Please try again.</span>
+          <span className="text-lg font-semibold text-Orange-200">
+            Something went wrong. Please try again.
+          </span>
         )}
       </div>
     </div>
@@ -103,10 +83,11 @@ export default function Home() {
   const [current, setCurrent] = useState(0);
   const [answers, setAnswers] = useState({});
   const [showLoader, setShowLoader] = useState(false);
-  const [loaderStatus, setLoaderStatus] = useState("loading");
   const [showThankYou, setShowThankYou] = useState(false);
   const [fieldError, setFieldError] = useState("");
-  const [submitError, setSubmitError] = useState("");
+  const [submitError, setSubmitError] = useState(null);
+  const [loaderStatus, setLoaderStatus] = useState("processing"); // "processing" | "success" | "error"
+  const [processingStep, setProcessingStep] = useState(0);
   const submittedRef = useRef(false);
   const step = getStep(current, showLoader, showThankYou);
 
@@ -133,7 +114,6 @@ export default function Home() {
       if (/^\d+$/.test(str)) return parseInt(str, 10);
       const match = str.match(/(\d[\d,]*)/g);
       if (match && match.length > 0) {
-        // Use the higher value if it's a range, else the first number
         return parseInt(match[match.length - 1].replace(/,/g, ""), 10);
       }
       return 0;
@@ -154,53 +134,92 @@ export default function Home() {
       email: answers.email,
     };
   }
-  const submitAnswers = async () => {
-    // Prevent multiple submissions using the ref
-    if (submittedRef.current) {
-      console.log("Submission already in progress, skipping duplicate call");
-      return true;
-    }
 
-    submittedRef.current = true;
+  // Handles the loader and submission logic after last question
+  useEffect(() => {
+    if (!showLoader) return;
 
-    try {
-      // console.log("Submitting answers:", answers);
-      const apiData = mapAnswersToApi(answers);
-      // console.log("Mapped API data:", apiData);
-      const res = await fetch("/api/send_response", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(apiData),
-      });
-      if (!res.ok) throw new Error("Failed to send response");
-      return true;
-    } catch (err) {
-      setSubmitError("Something went wrong sending the response");
-      return false;
-    }
+    let isMounted = true;
+    const processingTextsCount = 4;
+    const stepDuration = 2000; // 2 seconds per step
+    const totalProcessingTime = processingTextsCount * stepDuration;
+
+    setLoaderStatus("processing");
+    setProcessingStep(0);
+    setSubmitError(null);
+
+    // Animate processing steps
+    let step = 0;
+    const stepInterval = setInterval(() => {
+      step += 1;
+      if (step < processingTextsCount) {
+        setProcessingStep(step);
+      }
+    }, stepDuration);
+
+    // Start submit in parallel
+    let submitFinished = false;
+    let submitSuccess = false;
+    (async () => {
+      try {
+        const apiData = mapAnswersToApi(answers);
+        const res = await fetch("/api/send_response", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(apiData),
+        });
+        if (res.status >= 200 && res.status < 300) {
+          submitSuccess = true;
+        } else {
+          throw new Error(`Failed to send response: ${res.status}`);
+        }
+      } catch (err) {
+        if (isMounted) setSubmitError("Something went wrong sending the response");
+        submitSuccess = false;
+      } finally {
+        submitFinished = true;
+      }
+    })();
+
+    // After all processing steps are done, show result
+    const finishTimeout = setTimeout(() => {
+      clearInterval(stepInterval);
+      setProcessingStep(processingTextsCount - 1);
+
+      // Wait for submit to finish if not done yet
+      const waitForSubmit = async () => {
+        while (!submitFinished) {
+          await new Promise((r) => setTimeout(r, 100));
+        }
+        if (!isMounted) return;
+        if (!submitError && submitSuccess) {
+          setLoaderStatus("success");
+          setTimeout(() => {
+            setShowLoader(false);
+            setShowThankYou(true);
+          }, 1500); // Show success lottie for 1.5s
+        } else {
+          setLoaderStatus("error");
+        }
+      };
+      waitForSubmit();
+    }, totalProcessingTime);
+
+    return () => {
+      isMounted = false;
+      clearInterval(stepInterval);
+      clearTimeout(finishTimeout);
+    };
+    // eslint-disable-next-line
+  }, [showLoader]);
+
+  // If error, allow user to retry
+  const handleRetry = () => {
+    setShowLoader(false);
+    setTimeout(() => {
+      setShowLoader(true);
+    }, 100);
   };
-
-  const handleLoaderDone = async () => {
-  const MIN_LOADER_TIME = 3000;
-  const start = Date.now();
-  await submitAnswers();
-  const elapsed = Date.now() - start;
-  if (elapsed < MIN_LOADER_TIME) {
-    setTimeout(() => {
-      setLoaderStatus("success");
-      setTimeout(() => {
-        setShowLoader(false);
-        setShowThankYou(true);
-      }, 2000); // Show success animation for 2s
-    }, MIN_LOADER_TIME - elapsed);
-  } else {
-    setLoaderStatus("success");
-    setTimeout(() => {
-      setShowLoader(false);
-      setShowThankYou(true);
-    }, 2000); // Show success animation for 2s
-  }
-};
 
   const handleSelect = (option, errorMsg) => {
     if (errorMsg) {
@@ -217,7 +236,7 @@ export default function Home() {
   };
 
   return (
-    <main className="flex flex-col  relative min-h-screen text-foreground">
+    <main className="flex flex-col relative min-h-screen text-foreground">
       <div
         className="bg-ignite-animated"
         style={{
@@ -242,14 +261,12 @@ export default function Home() {
         <div className="floating-ball brown size10"></div>
       </div>
 
-      {/* Main div */}
       <div className="flex-1 flex flex-col z-10">
         {/* Navbar */}
         <nav className="w-full py-3 px-2 flex flex-col sm:flex-row items-center sm:items-center justify-between gap-2 font-barlow">
           <div className="flex items-center gap-1 mb-2 sm:mb-0 ">
             <IgniteLogo />
           </div>
-          {/* For larger screens, show the full navbar */}
           <div className="hidden sm:flex w-full sm:w-auto flex-1 justify-end max-w-[500px]">
             <ol className="flex flex-wrap justify-end w-full gap-x-6 gap-y-2">
               {NAV_STEPS.map((stepObj, idx) => (
@@ -264,12 +281,11 @@ export default function Home() {
               ))}
             </ol>
           </div>
-          {/* For mobile screens, show only the current step with fiery count */}
           <div className="flex sm:hidden w-full justify-center items-center gap-2">
             {showThankYou ? (
               <>
                 <span className="text-base md:text-lg font-semibold text-center text-Orange-200">
-                  {NAV_STEPS[3]?.label} {/* Always show the last step label */}
+                  {NAV_STEPS[3]?.label}
                 </span>
                 <span className="bg-gradient-to-r from-orange-500/70 via-red-500/70 to-yellow-400/70 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md glassmorphic-badge">
                   {step + 1}/{NAV_STEPS.length}
@@ -289,17 +305,27 @@ export default function Home() {
         </nav>
         {/* Main Content */}
         <div className="flex-1 flex items-center justify-center px-2">
+          {/* <Loader
+            processingStep={processingStep}
+            totalSteps={4}
+            status={loaderStatus}
+          /> */}
           {showLoader ? (
-            <Loader
-              status={loaderStatus}
-              onDone={handleLoaderDone}  
-              onError={() => {
-                setLoaderStatus("error");
-                setTimeout(() => setShowLoader(false), 2500); // show error animation for 2.5s
-              }}
-            />
-
-
+            loaderStatus === "processing" || loaderStatus === "success" ? (
+              <Loader
+                processingStep={processingStep}
+                totalSteps={4}
+                status={loaderStatus}
+              />
+            ) : (
+              <div className="flex flex-col items-center">
+                <Loader
+                  processingStep={processingStep}
+                  totalSteps={4}
+                  status="error"
+                />
+              </div>
+            )
           ) : showThankYou ? (
             <div className="glassmorphic-card rounded-xl shadow-lg p-10 w-full max-w-lg flex flex-col items-center justify-center text-center">
               <DotLottieReact
@@ -308,10 +334,10 @@ export default function Home() {
                 autoplay
                 className="w-32 h-32 mb-4"
               />
-              <h2 className="text-2xl font-bold text-red-300/80 mb-2 ">
+              <h2 className="text-2xl font-bold text-Orange-200 mb-2 ">
                 Your responses have been recorded
               </h2>
-              <p className="text-red-300/50">We will get back to you soon.</p>
+              <p className="text-Orange-200 opacity-70">We will get back to you soon.</p>
             </div>
           ) : (
             <QuestionCard
@@ -331,8 +357,7 @@ export default function Home() {
               <IgniteLogo />
             </div>
             <div className=" text-sm text-center">
-              © {new Date().getFullYear()} IgniteBusinessLoans. All rights
-              reserved.
+              © {new Date().getFullYear()} IgniteBusinessLoans. All rights reserved.
             </div>
           </div>
         </footer>
