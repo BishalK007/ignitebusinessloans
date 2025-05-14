@@ -66,7 +66,7 @@ function Loader({ status, onDone, onError }) {
     <div className="glassmorphic-card flex flex-col items-center justify-center">
       <div className="w-44 h-44 mb-6">
         {status === "loading" && (
-          <DotLottieReact src="/assets/Animation Fire - 1747154128191.lottie" loop autoplay className="pb-0 mb-0 sm:w-40 sm:h-40" />
+          <DotLottieReact src="/assets/Animation Fire - 1747154128191.lottie" loop autoplay className="pb-0 mb-0 sm:w-60 sm:h-60" />
         )}
         {status === "success" && (
           <DotLottieReact src="/assets/Animation success - 1747050616841.lottie" autoplay />
@@ -81,8 +81,8 @@ function Loader({ status, onDone, onError }) {
             <span
               key={idx}
               className={`text-base md:text-lg font-medium transition-opacity duration-500 ${idx === step
-                ? "opacity-100 text-orange-700"
-                : "opacity-60 text-yellow-500"
+                ? "opacity-100 text-red-300/80"
+                : "opacity-60 text-red-300/50"
                 }`}
             >
               {txt}
@@ -114,16 +114,16 @@ export default function Home() {
   function mapAnswersToApi(answers) {
     const creditScore = (() => {
       switch (answers.creditScore) {
-      case questions[5].options[0]:
-        return 750;
-      case questions[5].options[1]:
-        return 690;
-      case questions[5].options[2]:
-        return 630;
-      case questions[5].options[3]:
-        return 580;
-      default:
-        return 0;
+        case questions[5].options[0]:
+          return 750;
+        case questions[5].options[1]:
+          return 690;
+        case questions[5].options[2]:
+          return 630;
+        case questions[5].options[3]:
+          return 580;
+        default:
+          return 0;
       }
     })();
 
@@ -160,7 +160,7 @@ export default function Home() {
       console.log("Submission already in progress, skipping duplicate call");
       return true;
     }
-    
+
     submittedRef.current = true;
 
     try {
@@ -181,22 +181,26 @@ export default function Home() {
   };
 
   const handleLoaderDone = async () => {
-    const MIN_LOADER_TIME = 3000;
-    const start = Date.now();
-    await submitAnswers();
-    const elapsed = Date.now() - start;
-    if (elapsed < MIN_LOADER_TIME) {
+  const MIN_LOADER_TIME = 3000;
+  const start = Date.now();
+  await submitAnswers();
+  const elapsed = Date.now() - start;
+  if (elapsed < MIN_LOADER_TIME) {
+    setTimeout(() => {
+      setLoaderStatus("success");
       setTimeout(() => {
-        // setLoaderStatus("success"); //TODO: not working
         setShowLoader(false);
         setShowThankYou(true);
-      }, MIN_LOADER_TIME - elapsed);
-    } else {
-      // setLoaderStatus("success"); //TODO: not working
+      }, 2000); // Show success animation for 2s
+    }, MIN_LOADER_TIME - elapsed);
+  } else {
+    setLoaderStatus("success");
+    setTimeout(() => {
       setShowLoader(false);
       setShowThankYou(true);
-    }
-  };
+    }, 2000); // Show success animation for 2s
+  }
+};
 
   const handleSelect = (option, errorMsg) => {
     if (errorMsg) {
@@ -288,20 +292,13 @@ export default function Home() {
           {showLoader ? (
             <Loader
               status={loaderStatus}
-              onDone={() => {
-                setLoaderStatus("success");
-                setTimeout(() => {
-                  setShowLoader(false);
-                  setShowThankYou(true);
-                }, 2500); 
-              }}
-              // onDone={handleLoaderDone} //TODO: Everything is handled by this just need to fix setLoaderStatus("success") 
+              onDone={handleLoaderDone}  
               onError={() => {
                 setLoaderStatus("error");
                 setTimeout(() => setShowLoader(false), 2500); // show error animation for 2.5s
               }}
             />
-            
+
 
           ) : showThankYou ? (
             <div className="glassmorphic-card rounded-xl shadow-lg p-10 w-full max-w-lg flex flex-col items-center justify-center text-center">
@@ -311,10 +308,10 @@ export default function Home() {
                 autoplay
                 className="w-32 h-32 mb-4"
               />
-              <h2 className="text-2xl font-bold text-orange-700/80 mb-2 ">
+              <h2 className="text-2xl font-bold text-red-300/80 mb-2 ">
                 Your responses have been recorded
               </h2>
-              <p className="text-orange-700/70">We will get back to you soon.</p>
+              <p className="text-red-300/50">We will get back to you soon.</p>
             </div>
           ) : (
             <QuestionCard
