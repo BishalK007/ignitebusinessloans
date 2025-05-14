@@ -66,7 +66,7 @@ function Loader({ status, onDone, onError }) {
     <div className="glassmorphic-card flex flex-col items-center justify-center">
       <div className="w-44 h-44 mb-6">
         {status === "loading" && (
-          <DotLottieReact src="/assets/Animation Fire - 1747154128191.lottie" loop autoplay className="pb-0 mb-0 sm:w-60 sm:h-60" />
+          <DotLottieReact src="/assets/Animation Fire - 1747154128191.lottie" loop autoplay className="pb-0 mb-0 sm:w-40 sm:h-40" />
         )}
         {status === "success" && (
           <DotLottieReact src="/assets/Animation success - 1747050616841.lottie" autoplay />
